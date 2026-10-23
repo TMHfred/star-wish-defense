@@ -1,6 +1,6 @@
 /* Shared battle / archive rendering. Decorative trails never apply damage. */
 (function(root){'use strict';
-const palettes=[['#83c95b','#70b9ff'],['#ff8b35','#ed4d96'],['#68e4d9','#6898ff'],['#b296ff','#ffcf52'],['#ffd365','#eea4e9']];
+const palettes=[['#83c95b','#70b9ff'],['#ff8b35','#e54a42'],['#36d8c9','#397bdf'],['#b296ff','#ffcf52'],['#ffd365','#eea4e9']];
 const base=['#d2e9a0','#ffad50','#9deeff','#bd99ff','#ffe598'];
 function color(type,b){return b>=0?palettes[type][b]:base[type];}
 const descriptions=[['翠綠連射箭影','冰藍聚能長箭'],['橘紅爆破衝擊環','緋紅火焰與餘燼'],['青綠旋轉雪花','深藍冰晶；每第4擊呈現凍結'],['紫青跳躍電弧','金色集中落雷'],['金色聚焦光束','粉紫流光與儲能光珠']];
