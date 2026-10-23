@@ -2,18 +2,27 @@
 (function(root){'use strict';
 const palettes=[['#83c95b','#70b9ff'],['#ff8b35','#e54a42'],['#36d8c9','#397bdf'],['#b296ff','#ffcf52'],['#ffd365','#eea4e9']];
 const base=['#d2e9a0','#ffad50','#9deeff','#bd99ff','#ffe598'];
-function color(type,b){return b>=0?palettes[type][b]:base[type];}
+function color(type,b){return type===5?'#f8d573':b>=0?palettes[type][b]:base[type];}
 const descriptions=[['翠綠連射箭影','冰藍聚能長箭'],['橘紅爆破衝擊環','緋紅火焰與餘燼'],['青綠旋轉雪花','深藍冰晶；每第4擊呈現凍結'],['紫青跳躍電弧','金色集中落雷'],['金色聚焦光束','粉紫流光與儲能光珠']];
-const finals=[['滿級：三道箭影與葉形碎光','滿級：長尾光矢與聚焦準星'],['滿級：雙層爆破環與熔火碎片','滿級：螺旋焰柱與環繞餘燼'],['滿級：雙環寒流與六角雪花','滿級：凍結時升起冰晶封鎖'],['滿級：雙色分岔電弧','滿級：金色天雷與雷紋衝擊'],['滿級：多層聚焦環與星芒光束','滿級：雙螺旋流光與月輪光珠']];
-function description(type,b,level){return b<0?'選擇專精，預覽不同造型與攻擊特效。':level===5?finals[type][b]:descriptions[type][b];}
+const finals=[['高階：三道箭影與葉形碎光','高階：長尾光矢與聚焦準星'],['高階：雙層爆破環與熔火碎片','高階：螺旋焰柱與環繞餘燼'],['高階：雙環寒流與六角雪花','高階：凍結時升起冰晶封鎖'],['高階：雙色分岔電弧','高階：金色天雷與雷紋衝擊'],['高階：多層聚焦環與星芒光束','高階：雙螺旋流光與月輪光珠']];
+const ascended=[['星級突破：連射更快，額外命中兩名鄰近敵人。','星級突破：巨型光矢貫穿後方最多三名敵人。'],['星級突破：爆炸擴大至2.1格，熔火環席捲敵群。','星級突破：持續3秒的烈焰領域灼燒敵群。'],['星級突破：1.8格寒流領域，緩速提升至45%。','星級突破：每第3擊凍結小範圍敵人1.5秒，首領0.5秒。'],['星級突破：連鎖8名敵人，跳躍衰減降低。','星級突破：集中天雷附帶鄰近範圍震擊。'],['星級突破：單體蓄能傷害最高850%。','星級突破：切換目標保留80%蓄能。']];
+function description(type,b,level){if(type===5)return level===2?'星隕聖殿：850基礎傷害、2.25格爆炸，0.65秒後命中。':'召星祭壇：340基礎傷害、1.7格爆炸，0.65秒後命中。';if(level===6&&b>=0)return ascended[type][b];return b<0?'選擇專精，預覽不同造型與攻擊特效。':level>=5?finals[type][b]:descriptions[type][b];}
 function line(c,x,y,tx,ty,col,w){c.strokeStyle=col;c.lineWidth=w;c.beginPath();c.moveTo(x,y);c.lineTo(tx,ty);c.stroke();}
 function ring(c,x,y,r,col,w=2,sy=.6){c.strokeStyle=col;c.lineWidth=w;c.beginPath();c.ellipse(x,y,Math.max(.1,r),Math.max(.1,r*sy),0,0,Math.PI*2);c.stroke();}
 function star(c,x,y,r,col,angle=0,arms=4){c.save();c.translate(x,y);c.rotate(angle);c.fillStyle=col;c.beginPath();for(let i=0;i<arms*2;i++){const a=i*Math.PI/arms,rr=i%2?r*.25:r;i?c.lineTo(Math.cos(a)*rr,Math.sin(a)*rr):c.moveTo(rr,0);}c.closePath();c.fill();c.restore();}
 function shard(c,x,y,r,col,angle=0){c.save();c.translate(x,y);c.rotate(angle);c.fillStyle=col;c.beginPath();c.moveTo(0,-r);c.lineTo(r*.35,0);c.lineTo(0,r*.4);c.lineTo(-r*.35,0);c.closePath();c.fill();c.restore();}
 function arrow(c,x,y,angle,col,length,width){c.save();c.translate(x,y);c.rotate(angle);line(c,-length,0,4,0,col,width);c.fillStyle='#f5ffff';c.beginPath();c.moveTo(9,0);c.lineTo(-1,-4-width);c.lineTo(-1,4+width);c.closePath();c.fill();c.restore();}
 function attack(c,f,p,time,simple=false){
- const type=f.type??({arrow:0,fire:1,ice:2,lightning:3}[f.kind]??0),b=f.branch??-1,max=f.level===5,col=color(type,b),x=f.x,y=f.y,tx=f.tx,ty=f.ty,dx=tx-x,dy=ty-y,angle=Math.atan2(dy,dx),count=simple?4:max?12:8;
+ const type=f.type??({arrow:0,fire:1,ice:2,lightning:3,meteor:5,meteorImpact:5}[f.kind]??0),b=f.branch??-1,max=f.level>=5,col=color(type,b),x=f.x,y=f.y,tx=f.tx,ty=f.ty,dx=tx-x,dy=ty-y,angle=Math.atan2(dy,dx),count=simple?4:max?12:8;
  c.save();c.lineCap='round';c.lineJoin='round';c.shadowColor=col;c.shadowBlur=simple?0:max?13:7;
+ if(type===5){
+  const r=f.radius||55,final=f.level===2;
+  if(f.kind==='meteorImpact'){c.globalAlpha=1-p;ring(c,tx,ty,8+p*r,col,final?5:3);ring(c,tx,ty,5+p*r*.7,'#fff9d9',2);star(c,tx,ty,(final?55:36)*(1-p),'#fffbea',time,8);
+   for(let j=0;j<(simple?6:14);j++){const a=j*6.28/(simple?6:14);star(c,tx+Math.cos(a)*p*r,ty+Math.sin(a)*p*r*.6-p*20,7*(1-p)+2,j%2?col:'#e6edff',a,4);}
+  }else{ring(c,tx,ty,r*(.7+.3*p),'#f7db88',2);ring(c,tx,ty,r*.6,'#fff7d3',1);const yy=ty-(1-p)*(final?200:150),rr=final?24:16;line(c,tx,yy-55,tx,yy,'#ffe5a4',rr*.75);star(c,tx,yy,rr*1.5,'#f9d273',time,8);c.fillStyle='#fffdf0';c.beginPath();c.arc(tx,yy,rr,0,6.28);c.fill();ring(c,tx,yy,rr+5,col,2,1);}
+  c.restore();return;
+ }
+ if(f.level===6){c.globalAlpha=.7*(1-p);ring(c,tx,ty,(f.radius||30)*(.3+p),col,3);star(c,x,y,17*(1-p),col,time,b===1?4:6);c.globalAlpha=1;}
  if(type===3){
   c.globalAlpha=Math.max(0,1-p);const bolt=(sx,sy,ex,ey,width,tint,offset=0)=>{c.strokeStyle=tint;c.lineWidth=width;c.beginPath();c.moveTo(sx,sy);for(let j=1;j<=9;j++){const q=j/9,z=j===9?0:Math.sin(j*16+Math.floor(time*24)+offset)*(b===1?8:13);c.lineTo(sx+(ex-sx)*q+z,sy+(ey-sy)*q-z);}c.stroke();};
   bolt(x,y,tx,ty,max?7:4,col);bolt(x,y,tx,ty,1.5,'#fffef7');
@@ -50,14 +59,14 @@ function attack(c,f,p,time,simple=false){
  c.restore();
 }
 function beam(c,f,time,simple=false){
- const b=f.branch??-1,max=f.level===5,col=color(4,b),x=f.x,y=f.y,tx=f.tx,ty=f.ty,charge=f.charge||0,dx=tx-x,dy=ty-y,length=Math.hypot(dx,dy)||1,nx=-dy/length,ny=dx/length;
+ const b=f.branch??-1,max=f.level>=5,col=color(4,b),x=f.x,y=f.y,tx=f.tx,ty=f.ty,charge=f.charge||0,dx=tx-x,dy=ty-y,length=Math.hypot(dx,dy)||1,nx=-dy/length,ny=dx/length;
  c.save();c.lineCap='round';c.shadowColor=col;c.shadowBlur=simple?0:12;
- line(c,x,y,tx,ty,col,(max?7:4)+charge*.5);line(c,x,y,tx,ty,'#fffdf6',1.5+charge*.18);
+ line(c,x,y,tx,ty,col,(f.level===6?10:max?7:4)+charge*.5);line(c,x,y,tx,ty,'#fffdf6',1.5+charge*.18);
  if(b===1){
-  for(let j=0;j<(max?2:1);j++){c.strokeStyle=j?'#fff0ff':col;c.lineWidth=max?2.5:1.5;c.beginPath();const n=simple?12:26;for(let i=0;i<=n;i++){const q=i/n,off=Math.sin(q*18-time*8+j*Math.PI)*(max?9:5)*Math.sin(q*Math.PI);const xx=x+dx*q+nx*off,yy=y+dy*q+ny*off;i?c.lineTo(xx,yy):c.moveTo(xx,yy);}c.stroke();}
+  for(let j=0;j<(f.level===6?3:max?2:1);j++){c.strokeStyle=j?'#fff0ff':col;c.lineWidth=max?2.5:1.5;c.beginPath();const n=simple?12:26;for(let i=0;i<=n;i++){const q=i/n,off=Math.sin(q*18-time*8+j*Math.PI)*(max?9:5)*Math.sin(q*Math.PI);const xx=x+dx*q+nx*off,yy=y+dy*q+ny*off;i?c.lineTo(xx,yy):c.moveTo(xx,yy);}c.stroke();}
   for(let j=0;j<(max?4:2);j++){const a=time*2+j*6.28/(max?4:2);star(c,x+Math.cos(a)*18,y+Math.sin(a)*12,max?5:3,'#fff1ff',a,4);}if(max)ring(c,tx,ty,18+Math.sin(time*4)*3,col,2,1);
  }else{
-  const rings=max?3:1;for(let j=0;j<rings;j++){const q=.08+j*.1;ring(c,x+dx*q,y+dy*q,9+charge*.5+j*2,col,1.5,1);}
+  const rings=f.level===6?5:max?3:1;for(let j=0;j<rings;j++){const q=.08+j*.1;ring(c,x+dx*q,y+dy*q,9+charge*.5+j*2,col,1.5,1);}
   star(c,tx,ty,(max?17:9)+Math.sin(time*14)*2,'#fff7cd',time*.4,max?8:4);
   if(max&&!simple){for(let j=0;j<3;j++){const q=(time*.75+j/3)%1;star(c,x+dx*q,y+dy*q,4,col,time,4);}}
  }

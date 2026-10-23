@@ -2,13 +2,21 @@
 (function(root){'use strict';
 const crops=[[[63, 32, 249, 275], [377, 15, 231, 292], [669, 33, 228, 276], [959, 30, 229, 279], [1246, 31, 235, 277], [45, 333, 265, 283], [364, 328, 261, 289], [669, 332, 229, 285], [946, 339, 258, 279], [1234, 324, 259, 294], [36, 652, 298, 324], [350, 637, 290, 341], [653, 635, 262, 343], [939, 635, 273, 343], [1219, 632, 295, 347]], [[52, 61, 271, 242], [367, 27, 225, 277], [647, 33, 235, 271], [963, 52, 223, 252], [1248, 33, 233, 271], [31, 342, 303, 284], [344, 322, 272, 306], [632, 322, 274, 306], [945, 345, 258, 282], [1228, 321, 281, 305], [10, 644, 338, 336], [342, 637, 277, 342], [618, 638, 303, 342], [927, 637, 289, 343], [1222, 637, 299, 343]], [[75, 18, 275, 287], [394, 20, 252, 284], [709, 25, 225, 277], [1011, 26, 247, 279], [1332, 55, 241, 250], [49, 324, 316, 295], [381, 320, 282, 296], [687, 315, 263, 302], [991, 321, 287, 297], [1319, 341, 268, 276], [28, 637, 350, 315], [383, 630, 285, 318], [683, 627, 273, 324], [984, 627, 296, 324], [1298, 637, 303, 314]]];
 crops.push([[74,51,288,255],[479,6,195,288],[831,61,300,249],[1277,11,181,290],[42,322,342,300],[455,298,244,320],[796,338,372,292],[1250,305,235,320],[11,629,402,365],[433,610,287,381],[761,643,442,361],[1218,615,304,388]]);
-const sources=[...['base','a','b'].map(n=>'assets/towers-'+n+'-v14.webp'),'assets/fire-ice-v15.webp'];
+crops.push([[34,33,486,422],[527,53,497,402],[1024,22,464,434],[39,495,519,462],[558,474,466,486],[1024,481,479,481]],[[191,8,544,463],[808,25,538,446],[217,472,491,500],[802,477,538,495]],[[124,320,628,554],[880,11,827,876]]);
+const sources=[...['base','a','b'].map(n=>'assets/towers-'+n+'-v14.webp'),'assets/fire-ice-v15.webp','assets/ascend-one-v18.webp','assets/ascend-two-v18.webp','assets/meteor-v18.webp'];
 const images=typeof Image==='undefined'?[]:sources.map(src=>{const im=new Image();im.src=src;im.onload=()=>root.dispatchEvent(new Event('towerartready'));return im;});
 const cache=new Map();
 function layout(type,level=1,branch=-1){
- level=Math.max(1,Math.min(5,level));branch=level<3?-1:branch;
+ level=Math.max(1,Math.min(type===5?2:6,level));branch=level<3?-1:branch;
  if(level>3&&branch<0)branch=0;
  const key=[type,level,branch].join(':');if(cache.has(key))return cache.get(key);
+ if(type===5||level===6){
+ const sheet=type===5?6:type<3?4:5,index=type===5?level-1:type<3?branch*3+type:branch*2+type-3,crop=crops[sheet][index];
+ const prev=type===5?(level===2?layout(5,1):null):layout(type,5,branch);
+ let scale=Math.max((type===5?(level===2?150:98):145)/crop[3],(type===5?(level===2?120:85):100)/crop[2]);
+ if(prev)scale=Math.max(scale,prev.width*1.12/crop[2],prev.height*1.12/crop[3]);
+ const result={sheet,crop,width:crop[2]*scale,height:crop[3]*scale,scale};cache.set(key,result);return result;
+ }
  const revised=branch>=0&&(type===1||type===2),sheet=revised?3:branch<0?0:branch+1,row=branch<0?level-1:level-3,crop=crops[sheet][revised?row*4+(type-1)*2+branch:row*5+type];
  let scale=Math.max([0,65,73,82,93,108][level]/crop[3],[0,50,55,61,68,78][level]/crop[2]);
  // Both silhouette dimensions must grow, including the first specialization.
