@@ -256,10 +256,12 @@ $('#sound').onclick=()=>{sound=!sound;persistSettings();chirp('build');};
 $('#settingEffects').onclick=()=>{simpleEffects=!simpleEffects;persistSettings();};
 $('#settingMusic').onclick=()=>{music=!music;persistSettings();if(music){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();audioCtx.resume();}catch{}}};
 let melodyStep=0;setInterval(()=>{if(!music||document.hidden||portraitMode.matches)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state!=='running')return;const now=audioCtx.currentTime;for(const [freq,volume]of [[ [523,659,784,659,587,698,880,698][melodyStep++%8],.018],[261.63,.007]]){let o=audioCtx.createOscillator(),gain=audioCtx.createGain();o.type='sine';o.frequency.value=freq;gain.gain.setValueAtTime(0,now);gain.gain.linearRampToValueAtTime(volume,now+.12);gain.gain.exponentialRampToValueAtTime(.0001,now+1.5);o.connect(gain);gain.connect(audioCtx.destination);o.start(now);o.stop(now+1.6);}}catch{}},650);
-// Two illustrated teaching cards at a time keep the rules readable on phones.
-const helpCards=[...document.querySelectorAll('.help-grid article')],helpNav=document.createElement('div');helpNav.className='help-nav';helpNav.innerHTML='<button id="helpPrev" class="small-btn">← 上一頁</button><span class="help-page-count" id="helpCount"></span><button id="helpNext" class="small-btn">下一頁 →</button>';$('.help-grid').after(helpNav);
-function showHelpPage(){helpCards.forEach((a,i)=>a.hidden=Math.floor(i/2)!==helpPage);$('#helpCount').textContent=(helpPage+1)+' / '+Math.ceil(helpCards.length/2);$('#helpPrev').disabled=helpPage===0;$('#helpNext').disabled=helpPage===Math.ceil(helpCards.length/2)-1;}
+// One illustrated topic per page, with navigation outside the scroll region.
+const helpCards=[...document.querySelectorAll('.help-grid article')];
+function showHelpPage(){helpCards.forEach((a,i)=>a.hidden=i!==helpPage);$('#helpCount').textContent=(helpPage+1)+' / '+helpCards.length;$('#helpPrev').disabled=helpPage===0;$('#helpNext').disabled=helpPage===helpCards.length-1;$('.help-scroll').scrollTop=0;}
 $('#helpPrev').onclick=()=>{helpPage--;showHelpPage();};$('#helpNext').onclick=()=>{helpPage++;showHelpPage();};showHelpPage();
+$('#helpGuide').onclick=()=>{$('#helpDialog').close();openGuide();};
+window.addEventListener('starwish:before-update',event=>{save();if(!storageOK)event.preventDefault();});
 function openGuide(){renderGuide();safeDialog('guideDialog');}
 function renderGuide(){
  // Replacing focused controls can reset a scrolling dialog on mobile browsers.
