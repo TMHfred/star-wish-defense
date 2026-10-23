@@ -262,12 +262,21 @@ function showHelpPage(){helpCards.forEach((a,i)=>a.hidden=Math.floor(i/2)!==help
 $('#helpPrev').onclick=()=>{helpPage--;showHelpPage();};$('#helpNext').onclick=()=>{helpPage++;showHelpPage();};showHelpPage();
 function openGuide(){renderGuide();safeDialog('guideDialog');}
 function renderGuide(){
+ // Replacing focused controls can reset a scrolling dialog on mobile browsers.
+ const dialog=$('#guideDialog'),scrollTop=dialog.scrollTop,scrollLeft=dialog.scrollLeft,active=document.activeElement;
+ const focusAttribute=['data-guide','data-look-level','data-guide-branch'].find(attr=>active?.hasAttribute(attr));
+ const focusValue=focusAttribute?active.getAttribute(focusAttribute):null;
  const d=TOWERS[guideType],b=guideLevel>=3?guideBranch:-1,color=branchColor(guideType,b),name=b>=0?d.branches[b][0]:'基礎';
- $('#guideTabs').innerHTML=TOWERS.map((t,i)=>'<button data-guide="'+i+'" class="'+(i===guideType?'active':'')+'">'+t.name+'</button>').join('');
+ if(!$('#guideTabs').children.length)$('#guideTabs').innerHTML=TOWERS.map((t,i)=>'<button data-guide="'+i+'">'+t.name+'</button>').join('');
+ $('#guideTabs').querySelectorAll('button').forEach(el=>el.classList.toggle('active',Number(el.dataset.guide)===guideType));
  $('#guideTabs').querySelectorAll('button').forEach(el=>el.onclick=()=>{guideType=Number(el.dataset.guide);renderGuide();});
  $('#guideContent').innerHTML='<div class="guide-body"><div><canvas id="guideDemo" width="420" height="420" aria-label="'+d.name+' '+name+' Lv.'+guideLevel+' 外觀與攻擊特效示範"></canvas><div class="guide-caption">'+name+' · Lv.'+guideLevel+(guideLevel===5?' 最終進化':'')+'</div><div id="appearanceLevels" class="appearance-levels">'+[1,2,3,4,5].map(l=>'<button data-look-level="'+l+'" aria-pressed="'+(guideLevel===l)+'" class="'+(guideLevel===l?'active':'')+'">Lv.'+l+'</button>').join('')+'</div></div><div><h3>'+d.name+'</h3><p style="color:'+color+'">'+d.role+' · ◉ '+d.cost+'</p><p>'+d.desc+'</p><div class="guide-branches">'+d.branches.map((br,i)=>'<button data-guide-branch="'+i+'" aria-pressed="'+(b===i)+'" class="'+(b===i?'active':'')+'" style="--branch-color:'+branchColor(guideType,i)+'"><b>'+br[0]+'</b><small>'+br[1]+'</small><span>預覽專精外觀與特效</span></button>').join('')+'</div><p class="fx-description">'+TowerEffects.description(guideType,b,guideLevel)+'</p><p class="combo-guide">'+['❄ 冰＋弓箭：對緩速或凍結怪物傷害＋25%。','♨ 火＋冰：燃燒與冰霜交會時觸發蒸汽範圍傷害；火＋光束蓄能快50%。','♨ 火＋冰：蒸汽爆發。冰＋弓箭增傷25%；冰＋雷多連鎖1隻。','⚡ 冰＋雷：首個目標緩速或凍結時，多連鎖1隻。','✦ 火＋光束：燃燒期間蓄能速度＋50%，最大倍率不變。'][guideType]+'</p><p style="margin-top:8px;font-size:10px">Lv.3 選擇專精 · Lv.5 造型與特效進化 · 點選專精比較外觀與特效</p></div></div>';
  $('#appearanceLevels').querySelectorAll('button').forEach(el=>el.onclick=()=>{guideLevel=Number(el.dataset.lookLevel);if(guideLevel>=4&&guideBranch<0)guideBranch=0;renderGuide();});
  $('#guideContent').querySelectorAll('[data-guide-branch]').forEach(el=>el.onclick=()=>{guideBranch=Number(el.dataset.guideBranch);guideLevel=Math.max(3,guideLevel);renderGuide();});
+ if(dialog.open){
+  if(focusAttribute)dialog.querySelector('['+focusAttribute+'="'+focusValue+'"]')?.focus({preventScroll:true});
+  dialog.scrollTop=scrollTop;dialog.scrollLeft=scrollLeft;
+ }
 }
 function drawGuide(time){
  const c=$('#guideDemo');if(!c)return;const a=c.getContext('2d'),b=guideLevel>=3?guideBranch:-1,q=time%2.2/2.2;
