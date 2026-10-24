@@ -12,3 +12,48 @@
 @media(max-height:600px) and (min-width:640px) and (orientation:landscape){.tower-dock .tower-cards{grid-template-columns:repeat(2,minmax(0,1fr));min-width:0}.tower-dock .tower-card{width:54px!important;min-width:0}.tower-dock .tower-card canvas{width:30px}.tower-dock .tower-card b{font-size:9px}}
 
 @media(max-height:600px) and (min-width:640px) and (orientation:landscape){.tower-dock .tower-card{width:auto!important}}
+
+/* Compact adventure chooser: fixed chrome, scrollable stage list. */
+#menuDialog{width:min(920px,94vw);height:min(620px,92dvh);max-height:92dvh;padding:16px 20px;overflow:hidden;box-sizing:border-box}
+#menuDialog[open]{display:flex;flex-direction:column;gap:8px}
+#menuDialog .dialog-top{display:flex;align-items:center;justify-content:space-between;flex:none;margin:0;min-height:36px}
+#menuDialog .dialog-top h2{font-size:21px;margin:0}
+#menuDialog .close-btn{position:static;width:36px;height:36px;min-width:36px;min-height:36px;padding:0}
+#menuDialog .menu-extra{display:flex;gap:6px;margin:0;padding:0;border:0;flex:none}
+#menuDialog .menu-extra .text-btn{flex:1;min-height:36px;height:36px;padding:4px 8px;font-size:12px;border:1px solid #d0dac2;border-radius:8px;background:#eef2e2;box-shadow:none;gap:5px}
+#menuDialog .menu-button-icon{width:21px;height:21px;border-radius:5px;font-size:15px}
+#menuDialog .mode-tabs{margin:0;padding:3px;flex:none;border-radius:9px}
+#menuDialog .mode-tabs button{padding:6px;min-height:32px;font-size:13px}
+#menuDialog #mapChoices{overflow-y:auto;overscroll-behavior:contain;min-height:0;flex:1;scrollbar-width:thin;padding-right:2px}
+#menuDialog .star-progress{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 6px;padding:7px 10px;border-radius:8px;background:#f3efcf}
+#menuDialog .star-progress b{font-size:16px;white-space:nowrap}
+#menuDialog .star-progress span{font-size:11px;flex:1}
+#menuDialog #showRewards{padding:5px;font-size:12px;min-height:32px;color:#3b6550;font-weight:700;white-space:nowrap}
+#menuDialog .chapter-tabs{margin:0 0 7px;gap:5px}#menuDialog .chapter-tabs button{min-height:34px;padding:5px;font-size:12px}
+#menuDialog .map-card{padding:10px;margin:0;align-items:start;gap:8px;min-width:0}
+#menuDialog .map-card h3{font-size:14px}#menuDialog .map-card p{font-size:11px;line-height:1.55;color:#617358}
+#menuDialog .map-badge{font-size:20px;min-width:24px}#menuDialog .map-card .stars{font-size:13px}
+#menuDialog .story-progress{font-size:10px;margin:7px 0}
+#menuDialog .dialog-bottom{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex:none;position:static;margin:0;padding:6px 0 0;border-top:1px solid #d6ddc7;background:#fffbed}
+#menuDialog .dialog-bottom button{width:auto;min-height:36px;padding:7px 14px;margin:0;font-size:12px}
+#menuDialog #mapChoices:has(.chapter-tabs){display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;align-content:start}
+#menuDialog .star-progress,#menuDialog .chapter-tabs,#menuDialog .story-progress,#menuDialog #meteorTrial{grid-column:1/-1}
+#settingsDialog{width:min(520px,88vw);padding:16px 20px;max-height:86dvh}
+#settingsDialog .dialog-top .eyebrow{display:none}#settingsDialog .dialog-top{height:0;margin:0}#settingsDialog h2{font-size:21px;margin:0 0 10px}#settingsDialog .close-btn{top:12px;right:14px}
+#settingsDialog .setting-row{min-height:44px;padding:5px 0;gap:15px;font-size:14px}#settingsDialog .setting-row button{min-height:34px;padding:6px 15px;font-size:13px}
+#settingsDialog p{margin:10px 0 0;font-size:11px;color:#6b7a60}
+#rewardsDialog{width:min(620px,88vw);max-height:82dvh;padding:16px 20px;overflow:hidden}#rewardsDialog[open]{display:flex;flex-direction:column}
+.reward-heading{display:flex;align-items:center;justify-content:space-between;flex:none}.reward-heading h2{font-size:20px;margin:0 0 8px}.reward-heading .close-btn{position:static}
+#rewardList{overflow:auto;min-height:0}.reward-row{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #dce2ce;font-size:13px}.reward-row b{min-width:40px;color:#907a38}.reward-row span{flex:1}.reward-row small{color:#78836c}.reward-row.unlocked small{color:#39775a}
+@media(max-height:600px) and (orientation:landscape){#menuDialog{padding:10px 16px;gap:5px}#menuDialog .dialog-top h2{font-size:18px}#menuDialog .dialog-top{min-height:30px}#menuDialog .star-progress{padding:4px 8px;margin:0}#menuDialog .map-card{padding:8px}#menuDialog .map-card h3{font-size:13px}#menuDialog .map-card p{font-size:11px}#menuDialog .chapter-tabs{margin:0}#settingsDialog{padding:12px 20px}#settingsDialog .setting-row{min-height:40px;padding:3px 0}}
+
+.map-description{display:block}
+@media(max-height:600px) and (orientation:landscape){
+ #menuDialog .dialog-top{min-height:28px}#menuDialog .close-btn{width:28px;height:28px;min-height:28px}
+ #menuDialog .menu-extra .text-btn{height:32px;min-height:32px}#menuDialog .mode-tabs button{min-height:28px;padding:4px}
+ #menuDialog .star-progress{flex-wrap:nowrap;min-height:32px;box-sizing:border-box;padding:2px 8px}
+ #menuDialog .map-card{display:block;position:relative;padding:8px 8px 23px}#menuDialog .map-badge{display:none}#menuDialog .map-card .stars{position:absolute;right:8px;bottom:5px}
+ #menuDialog .map-description{display:none}#menuDialog .map-card p{line-height:1.5}#menuDialog .dialog-bottom:not(:has(button:not([hidden]))){display:none}
+}
+
+#settingsDialog .dialog-top{height:auto;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}#settingsDialog .dialog-top h2{margin:0}#settingsDialog .close-btn{position:static;width:32px;height:32px;min-width:32px;min-height:32px;padding:0}
