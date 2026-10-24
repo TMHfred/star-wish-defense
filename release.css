@@ -9,3 +9,6 @@
 @media(orientation:portrait){.update-notice{display:none}}
 
 @media(max-height:600px) and (orientation:landscape){.mini-path{font-size:28px;gap:8px}}
+
+#announcementDialog{width:min(720px,80vw);height:min(560px,80dvh);max-height:80dvh;margin:auto}
+@media(max-height:600px) and (orientation:landscape){#announcementDialog{width:min(720px,80vw);height:80dvh;max-height:80dvh}#announcementDialog .info-header{padding:8px 16px}#announcementDialog .announcement-body{padding:10px 16px}}

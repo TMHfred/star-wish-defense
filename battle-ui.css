@@ -33,3 +33,15 @@
  .board-label{top:12px;left:47%;max-width:45vw;font-size:9px;pointer-events:none}
  #selectionBar{flex-wrap:wrap;width:100%;gap:4px}.selected-identity,.choosing-specialty .selected-identity{min-width:0;width:100%;padding:3px}.selected-identity canvas{display:none}.selected-identity b{font-size:11px}.selected-identity .range-key{font-size:8px}.compact-actions{width:100%;flex-direction:column;gap:4px}.compact-actions button{width:100%;min-width:0;min-height:39px;padding:5px;font-size:10px}.specialize-card{min-width:0!important;width:100%;grid-template-columns:26px 1fr}.specialize-card canvas{width:26px;height:38px}.specialize-card span small{font-size:8px}.detail-button{width:48px;min-width:48px;height:34px}
 }
+
+/* Mobile controls reserve their own lanes, including safe-area insets. */
+@media(max-height:600px) and (min-width:640px) and (orientation:landscape){
+ .stats{gap:4px;width:78px}.stats .stat{width:78px;min-width:78px;height:32px;padding:4px 6px}.stats .stat b{font-size:14px}
+ .top-actions,.tower-dock{width:112px}.tower-dock .tower-card{width:auto!important}.tower-dock .tower-card canvas{width:29px;height:33px}
+ .board-label{left:calc(50% - 16px);max-width:calc(100vw - 250px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+#guideDialog .guide-body{grid-template-columns:minmax(230px,38%) minmax(0,1fr);align-items:start}
+#guideDialog .guide-body canvas{width:100%;height:auto;aspect-ratio:1;display:block}
+#guideDialog .guide-body>div:first-child{position:sticky;top:0;text-align:center}
+#guideDialog .appearance-levels{justify-content:center}
+@media(max-height:600px) and (orientation:landscape){#guideDialog .guide-body{grid-template-columns:minmax(185px,34%) minmax(0,1fr);gap:16px}}
