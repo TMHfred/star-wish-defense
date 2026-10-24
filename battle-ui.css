@@ -14,3 +14,22 @@
 
 /* Keep guide content replacement from moving the mobile scroll anchor. */
 #guideDialog{overflow-anchor:none}
+/* Full-board presentation: all camera gestures are intentionally disabled. */
+.camera-controls,#zoom{display:none!important}
+#battleTools .camera-controls{display:none!important}
+.topbar .stat,.topbar button,.tower-dock{box-shadow:0 3px 10px #244c4220}
+.tower-dock{border:2px solid #ffffffba;background:#eaf5eadf;backdrop-filter:blur(10px)}
+.tower-card{border:1px solid #cbded3;background:#fffef4;border-radius:16px}
+.tower-card.active{border-color:#448f7d;box-shadow:inset 0 0 0 2px #448f7d;background:#e4f7ed}
+.selected-identity b{color:#284e47}.selected-identity small{color:#47685b}.selected-identity .range-key{color:#516d60}
+@media(max-height:600px) and (min-width:640px) and (orientation:landscape){
+ .topbar{position:fixed;inset:0;height:0;padding:0;pointer-events:none}.topbar>*{pointer-events:auto}
+ .stats{position:fixed;left:max(6px,env(safe-area-inset-left));top:10px;display:flex;flex-direction:column;gap:6px;width:84px}
+ .stats .stat{width:84px;min-width:84px;height:36px;padding:5px 7px}.stats .stat b{font-size:15px}.stats .stat small{display:none}
+ .top-actions{position:fixed;right:max(6px,env(safe-area-inset-right));top:8px;display:grid;grid-template-columns:1fr 1fr;gap:5px;width:124px}
+ .top-actions .icon-btn,.top-actions .control-btn{width:100%;height:34px;min-width:0}.top-actions #startWave{grid-column:1/-1;width:100%;min-width:0;height:34px;min-height:34px}
+ .tower-dock{left:auto;right:max(6px,env(safe-area-inset-right));top:130px;bottom:auto;transform:none;width:124px;max-height:calc(100dvh - 136px);padding:4px;display:flex;flex-direction:column;gap:4px;overflow:auto;border-radius:13px}
+ .tower-dock .tower-cards{display:grid;grid-template-columns:1fr 1fr;gap:4px;width:100%}.tower-dock .tower-card{width:54px;height:65px;min-height:65px;flex-direction:column;gap:0;padding:2px}.tower-dock .tower-card canvas{width:30px;height:34px}.tower-dock .tower-card b{font-size:9px}.tower-dock .tower-card small{font-size:8px;line-height:10px}.tower-dock .cancel-tool{width:100%;min-width:0;height:25px;min-height:25px;font-size:17px}.tower-dock .cancel-tool small{display:inline;margin-left:5px}
+ .board-label{top:12px;left:47%;max-width:45vw;font-size:9px;pointer-events:none}
+ #selectionBar{flex-wrap:wrap;width:100%;gap:4px}.selected-identity,.choosing-specialty .selected-identity{min-width:0;width:100%;padding:3px}.selected-identity canvas{display:none}.selected-identity b{font-size:11px}.selected-identity .range-key{font-size:8px}.compact-actions{width:100%;flex-direction:column;gap:4px}.compact-actions button{width:100%;min-width:0;min-height:39px;padding:5px;font-size:10px}.specialize-card{min-width:0!important;width:100%;grid-template-columns:26px 1fr}.specialize-card canvas{width:26px;height:38px}.specialize-card span small{font-size:8px}.detail-button{width:48px;min-width:48px;height:34px}
+}
