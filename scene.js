@@ -1,9 +1,9 @@
 /* Phaser 4.2.1 owns rendering, texture cache, input and visual feedback.
    model.js owns world coordinates, targeting, damage, wave timing and economy. */
-(function(){'use strict';const F=Forest;
+(function(){'use strict';const F=Forest,artURL=ForestArt.url;
 class ForestScene extends Phaser.Scene{
 constructor(){super('forest');}
-preload(){this.load.on('progress',v=>{document.getElementById('loadBar').style.width=(v*100)+'%'});this.load.on('loaderror',f=>{document.getElementById('loadText').textContent='素材讀取失敗：'+f.key+'，請重新整理';});for(const tower of F.TOWERS)for(let i=0;i<tower.forms.length;i++)this.load.image(tower.id+i,`assets/${tower.id}-${i}.webp`);for(const i of [...new Set(F.ENEMIES.map(e=>e.art))])this.load.image('enemy'+i,`assets/monsters-${i}.webp`);for(const [key,file]of [['forest','forest.webp'],['earth','earth.webp'],['castle','castle-0.webp'],['portal','portal.webp'],['river-prop','river-prop.webp'],['ruin-prop','ruin-prop.webp'],['lantern-prop','lantern-prop.webp']])this.load.image(key,'assets/'+file);}
+preload(){this.load.on('progress',v=>{document.getElementById('loadBar').style.width=(v*100)+'%'});this.load.on('loaderror',f=>{document.getElementById('loadText').textContent='素材讀取失敗：'+f.key+'，請重新整理';});for(const tower of F.TOWERS)for(let i=0;i<tower.forms.length;i++)this.load.image(tower.id+i,artURL(`assets/${tower.id}-${i}.webp`));for(const i of [...new Set(F.ENEMIES.map(e=>e.art))])this.load.image('enemy'+i,`assets/monsters-${i}.webp`);for(const [key,file]of [['forest','forest.webp'],['earth','earth.webp'],['castle','castle-0.webp'],['portal','portal.webp'],['river-prop','river-prop.webp'],['ruin-prop','ruin-prop.webp'],['lantern-prop','lantern-prop.webp']])this.load.image(key,'assets/'+file);}
 create(){this.model=new F.Game;this.selected=-1;this.playing=false;this.ambient=0;this.enemyViews=new Map;this.towerViews=new Map;this.background=this.add.image(0,0,'forest');this.wash=this.add.graphics();this.world=this.add.container(0,0);this.buildWorld();this.layout();this.scale.on('resize',()=>this.layout());document.getElementById('loader').hidden=true;window.battle=this;window.dispatchEvent(new Event('forest-ready'));}
 buildWorld(){
  const stage=this.model.stage,theme=F.CHAPTERS[stage.chapter].theme;
@@ -91,5 +91,5 @@ for(const t of this.model.towers){if(t.type!==4||!t.targetId)continue;const targ
 for(const p of this.model.shots)this.drawShot(p);
 this.leaves.clear();for(let i=0;i<12;i++){const t=this.ambient*.2+i*1.7,x=(i*127+t*17)%1280,y=25+(i*73+t*6)%360;const chapter=this.model.stage.chapter;this.leaves.fillStyle([i%3?0xc4dc76:0xf7e7a5,0xc4f2ed,0xeaf5ff,0xf4dcff][chapter],.25+.18*Math.sin(t+i)).fillEllipse(x,y,chapter===2?2:4+i%3,2);}if(this.playing)window.UI?.frame();}
 }
-window.ForestScene=ForestScene;window.phaserGame=new Phaser.Game({type:Phaser.AUTO,parent:'game',backgroundColor:'#466b40',scale:{mode:Phaser.Scale.RESIZE,width:window.innerWidth,height:window.innerHeight},render:{antialias:true,roundPixels:false},resolution:Math.min(window.devicePixelRatio||1,2),scene:[ForestScene],audio:{noAudio:true},fps:{target:60}});
+window.ForestScene=ForestScene;window.phaserGame=new Phaser.Game({type:Phaser.AUTO,parent:'game',backgroundColor:'#466b40',scale:{mode:Phaser.Scale.NONE,...ForestViewport.measure()},render:{antialias:true,roundPixels:false},resolution:Math.min(window.devicePixelRatio||1,2),scene:[ForestScene],audio:{noAudio:true},fps:{target:60}});ForestViewport.bind(window.phaserGame);
 })();
