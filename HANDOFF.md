@@ -91,3 +91,10 @@ Phaser 4.2.1 本地 vendor；四場景十二關、8～15 波、八種敵人；�
 - 發布前實際根目錄於 /star-wish-defense/ 子路徑通過十二關瀏覽器回歸；全部檔案 SHA-256 校驗與 .nojekyll 檢查通過。
 - 目前執行環境仍未套用 tmhfred.github.io 網路存取，無法直接對正式站做 HTTP／瀏覽器回歸；未宣稱正式站端到端驗證或實體 iPhone 測試已通過。網路需求已保存在設定草稿，待套用後應核對線上 build-info.json 再執行 browser-campaign 測試。
 - 已返回 remake 開發分支；未把正式根目錄產物混入該開發分支。後續修改仍在 remake 進行，正式發布須按流程同步根目錄並驗證。
+
+## 手機戰場向下裁切修正
+- 使用者提供正式站手機畫面：HUD 在上方，但戰場大部分落在螢幕下方。實體 Safari 的精確觸發條件尚未確認；不能把模擬故障注入視為實機重現。
+- 新增 viewport.js，改用手動 Phaser Scale.NONE 尺寸同步，依 document／innerHeight／visualViewport 的可用高度計算可視區；排除轉向期間寬度不符的舊 visualViewport 與 pinch zoom。遊戲 host 不再依賴 Phaser 父元素快取高度，顯式設定可視寬高。
+- 監聽 resize、orientationchange、visualViewport resize/scroll、pageshow、focus、visibility restore 及 fullscreenchange，於動畫影格與 100／350ms 後重新量測。畫布、世界轉換與 DOM 平台點擊區一起更新；world 1280×400、塔尺寸、原有地圖 fitting 公式不變。
+- tests/browser-viewport.test.py 於 Chromium mobile/touch/DPR3 驗證：初始直向→橫向、注入殘留 768px Phaser／父元素高度、innerHeight 延遲、無 window resize 的 pageshow／focus、反覆直橫向、觸控建塔與戰鬥。橫向尺寸 844×390、852×393、667×375、932×430 通過。未安裝 WebKit，未完成實體 iPhone／Safari 驗證。
+- 發布封裝的 JS／CSS URL 改帶檔案內容指紋，避免新 HTML 搭配舊快取 scene.js／style.css；實際檔案與 build-info.json 的校驗值仍一致。

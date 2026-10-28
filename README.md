@@ -54,3 +54,5 @@ inner/visualViewport、顯示模式、安全區、canvas、Phaser scale、世界
 先在 remake 執行完整測試並提交開發內容，再執行 `python3 scripts/build-preview.py --channel github-pages`。正式封裝會移除本機診斷引用、加入 .nojekyll 及 build-info.json。將封裝內容同步到基於最新 main 並合併 remake 的發布分支根目錄，保留 dist 原始碼。部署前備份舊 main；以一般 fast-forward 推送，遇到遠端更新則重新整合，禁止 force push。上傳提交不等於 Pages 部署成功，仍需核對 GitHub Pages 工作與線上 build-info.json。
 
 重製版保留舊版瀏覽器資料但不讀取或遷移它，沒有自由迷宮與戰鬥中途續玩。這些差異已在使用者指定正式發布前說明。
+
+手機視口回歸可執行 `python3 tests/browser-viewport.test.py`（同樣支援 GAME_URL／CHROMIUM_PATH）。此測試包含手機模擬尺寸、故障注入與觸控，不代表實體 iPhone 測試。
