@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 import zipfile
 
@@ -25,6 +26,16 @@ for path in sorted(dist.rglob('*')):
     if relative=='index.html':
         data=data.replace(b'<script src="viewport-debug.js"></script>',b'')
     files[relative]=data
+# Version script/style URLs so a new HTML page cannot reuse an older cached engine.
+def version_reference(match):
+    name=match.group(2)
+    if name not in files:
+        return match.group(0)
+    version=hashlib.sha256(files[name]).hexdigest()[:12]
+    return match.group(1)+name+'?v='+version+'"'
+html=files['index.html'].decode()
+html=re.sub(r'((?:src|href)=")([^"?#]+\.(?:js|css))"',version_reference,html)
+files['index.html']=html.encode()
 checksums={name:hashlib.sha256(data).hexdigest() for name,data in files.items()}
 build_id=hashlib.sha256(json.dumps(checksums,sort_keys=True).encode()).hexdigest()[:16]
 info={'build_id':build_id,'channel':'remake-preview' if args.channel=='preview' else 'github-pages','chapters':4,'stages':12,'guardians':6,'files':checksums}
