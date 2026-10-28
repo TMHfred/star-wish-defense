@@ -56,3 +56,5 @@ inner/visualViewport、顯示模式、安全區、canvas、Phaser scale、世界
 重製版保留舊版瀏覽器資料但不讀取或遷移它，沒有自由迷宮與戰鬥中途續玩。這些差異已在使用者指定正式發布前說明。
 
 手機視口回歸可執行 `python3 tests/browser-viewport.test.py`（同樣支援 GAME_URL／CHROMIUM_PATH）。此測試包含手機模擬尺寸、故障注入與觸控，不代表實體 iPhone 測試。
+
+冰塔素材以 `ICE-ASSETS.md`／`ICE-ASSETS.json` 為準。更新後可執行 `python3 scripts/update-ice-assets.py` 驗證原檔並更新快取網址，不會修改圖片。`python3 tests/browser-ice-assets.test.py` 會核對五張圖片回應的 Git 雜湊、戰場預載像素、圖鑑網址及兩種最終外觀。

@@ -98,3 +98,11 @@ Phaser 4.2.1 本地 vendor；四場景十二關、8～15 波、八種敵人；�
 - 監聽 resize、orientationchange、visualViewport resize/scroll、pageshow、focus、visibility restore 及 fullscreenchange，於動畫影格與 100／350ms 後重新量測。畫布、世界轉換與 DOM 平台點擊區一起更新；world 1280×400、塔尺寸、原有地圖 fitting 公式不變。
 - tests/browser-viewport.test.py 於 Chromium mobile/touch/DPR3 驗證：初始直向→橫向、注入殘留 768px Phaser／父元素高度、innerHeight 延遲、無 window resize 的 pageshow／focus、反覆直橫向、觸控建塔與戰鬥。橫向尺寸 844×390、852×393、667×375、932×430 通過。未安裝 WebKit，未完成實體 iPhone／Safari 驗證。
 - 發布封裝的 JS／CSS URL 改帶檔案內容指紋，避免新 HTML 搭配舊快取 scene.js／style.css；實際檔案與 build-info.json 的校驗值仍一致。
+
+
+## 補齊核准冰塔素材
+- 已拉取並合併遠端 remake 的 6fbcb18（Supply approved ice tower artwork and explicit form mapping），保留本機尚未發布的手機視口修正。已閱讀 ICE-ASSETS.md 與 ICE-ASSETS.json，這兩份文件是冰塔圖片的新依據，取代先前冰塔 v19 裁切素材。
+- 直接使用該提交提供的 dist/assets/ice-0.webp 至 ice-4.webp，未裁切、重畫、重新壓縮或以分支圖代替最終型態。五張檔案的 Git blob SHA 與位元組數均吻合 ICE-ASSETS.json。
+- 新增 asset-urls.js，所有冰塔預載、商店縮圖、塔資訊頭像與圖鑑使用相同內容版本網址。版本來自核准 manifest 的 Git blob SHA，解決同檔名／同預載鍵仍命中舊 HTTP 快取的問題。scripts/update-ice-assets.py 只驗證圖片與生成 URL 表，不寫入圖片。
+- 新增 ice-assets.test.cjs：檢查五張完整檔案雜湊／大小與版本網址；browser-ice-assets.test.py 核對實際 HTTP 回應與 Phaser 解碼像素、五張圖鑑載入、基本→分支→最終兩路線及最終 146 世界單位寬度。
+- 上述素材模型／檔案／瀏覽器檢查已通過；圖片原檔未變更。準備與手機視口修正一起同步 GitHub Pages，發布設定維持 main / (root)，不改玩法。

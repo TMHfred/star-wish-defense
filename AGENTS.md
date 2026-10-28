@@ -1,8 +1,9 @@
 # 星之祈願：守護小隊 — Codex 工作規範
 
-先讀 HANDOFF.md、README.md、ART-DIRECTION.md。此分支是獨立重製樣板，不是 main 正式版。
+先讀 HANDOFF.md、README.md、ART-DIRECTION.md、ICE-ASSETS.md。此分支是獨立重製樣板，不是 main 正式版。
 
 - 只在 remake 或衍生工作分支開發。未經明確要求，不合併 main、不部署 GitHub Pages、不變更正式版。
+- 冰塔五張獨立圖片以 ICE-ASSETS.md／ICE-ASSETS.json 為版本依據，不得從舊 ice-v19 圖集重新裁切或以分支圖代替最終圖。
 - 沿用已核准塔圖、各分支與最終外觀。底座、視角、光線、比例保持一致，不自行重畫或改風格。
 - 手機橫向滿版；按鈕至少 44 CSS px，尊重安全區。不要以縮小整張地圖解決介面遮擋。
 - 地圖道路維持直線與直角。射程圈、點擊區、塔底座與命中判定共用世界座標。
