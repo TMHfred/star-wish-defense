@@ -106,3 +106,10 @@ Phaser 4.2.1 本地 vendor；四場景十二關、8～15 波、八種敵人；�
 - 新增 asset-urls.js，所有冰塔預載、商店縮圖、塔資訊頭像與圖鑑使用相同內容版本網址。版本來自核准 manifest 的 Git blob SHA，解決同檔名／同預載鍵仍命中舊 HTTP 快取的問題。scripts/update-ice-assets.py 只驗證圖片與生成 URL 表，不寫入圖片。
 - 新增 ice-assets.test.cjs：檢查五張完整檔案雜湊／大小與版本網址；browser-ice-assets.test.py 核對實際 HTTP 回應與 Phaser 解碼像素、五張圖鑑載入、基本→分支→最終兩路線及最終 146 世界單位寬度。
 - 上述素材模型／檔案／瀏覽器檢查已通過；圖片原檔未變更。準備與手機視口修正一起同步 GitHub Pages，發布設定維持 main / (root)，不改玩法。
+
+## 手機視口與核准冰塔更新已發布
+- 環境恢復後完成正式根目錄的手機回歸測試，通過舊 Phaser／父元素／innerHeight 故障注入、反覆轉向、背景返回、點擊區與觸控建塔。npm test、npm run check、正式根目錄所有檔案雜湊均通過。
+- 正式 main 已更新至 92bb068（Publish viewport synchronization and approved ice tower textures）；build-info.json 的 build_id 為 1119d76800eb5868。
+- GitHub Pages 工作 https://github.com/TMHfred/star-wish-defense/actions/runs/40726893535 已核對此次提交並回報 COMPLETED / SUCCESS。正式網址維持 https://tmhfred.github.io/star-wish-defense/ 。
+- 新版冰塔五張原檔皆直接來自 6fbcb18，根目錄／dist／manifest 的雜湊一致；戰場與圖鑑實際回應、解碼像素及兩條最終進化驗證已通過，沒有從舊圖集裁切。
+- 更新前版本已保存遠端 backup/pre-mobile-63b96a1，未 force push。實體 iPhone／Safari 的裁切症狀仍需使用者試玩確認；本環境無 tmhfred.github.io 存取權，未宣稱線上瀏覽器或實體手機測試已通過。
