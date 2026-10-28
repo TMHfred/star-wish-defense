@@ -82,3 +82,12 @@ Phaser 4.2.1 本地 vendor；四場景十二關、8～15 波、八種敵人；�
 - 遠端 main 仍為 968d20321002288d8cb63fdc077c84b527fc56ec，remake 仍為 0bc70bf597c71eec9b552307769cea725418be0a。正式切換應保存舊 main 備份分支；原版資源仍可從該提交回復。
 - 封裝腳本新增 --channel github-pages，包含 .nojekyll，排除本機診斷引用。開發內容在 dist；實際 Pages 根目錄需同步封裝檔案，不可只推送 dist 就宣稱已更新網站。
 - 已保存 api.github.com 與 tmhfred.github.io 的網路需求草稿（保留既有網路項目），尚未套用到目前執行環境；Netlify token 不再是這次 GitHub Pages 發布的前提。
+
+## GitHub Pages 已完成部署
+- 已依使用者明確授權將十二關重製版發布至 https://tmhfred.github.io/star-wish-defense/ 。
+- 開發提交：275d501e0f10831f5edf8db910d289f53f9805ad；正式 main 提交：63b96a18d206bb291c349edafb64bcd6f8d26e00。正式根目錄 build-info.json 的 build_id 為 b08aafc3226e40c6，channel 為 github-pages。
+- 遠端舊版備份分支 backup/pre-remake-968d203 指向 968d20321002288d8cb63fdc077c84b527fc56ec；另有本機 /tmp/star-wish-preview/main-before-remake-968d203.tar。未 force push。
+- GitHub Pages 工作 https://github.com/TMHfred/star-wish-defense/actions/runs/40722869025 已回報 WORKFLOW_RUN_STATUS_COMPLETED / WORKFLOW_RUN_CONCLUSION_SUCCESS。這是部署成功證據，不只 Git push 成功。
+- 發布前實際根目錄於 /star-wish-defense/ 子路徑通過十二關瀏覽器回歸；全部檔案 SHA-256 校驗與 .nojekyll 檢查通過。
+- 目前執行環境仍未套用 tmhfred.github.io 網路存取，無法直接對正式站做 HTTP／瀏覽器回歸；未宣稱正式站端到端驗證或實體 iPhone 測試已通過。網路需求已保存在設定草稿，待套用後應核對線上 build-info.json 再執行 browser-campaign 測試。
+- 已返回 remake 開發分支；未把正式根目錄產物混入該開發分支。後續修改仍在 remake 進行，正式發布須按流程同步根目錄並驗證。
