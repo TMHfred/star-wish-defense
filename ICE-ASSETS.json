@@ -1,0 +1,36 @@
+{
+  "status": "user-approved",
+  "source": "approved original Sites artwork, copied without resizing or recoloring",
+  "files": [
+    {
+      "path": "dist/assets/ice-0.webp",
+      "name": "冰霜塔・基本",
+      "sha": "612cd50b9e073725b7e35826a68fb604fe72f971",
+      "size": 31952
+    },
+    {
+      "path": "dist/assets/ice-1.webp",
+      "name": "冰霜塔・寒流分支",
+      "sha": "c0f37c3fdf7a96e5afc6b3496ce107773330ad00",
+      "size": 40092
+    },
+    {
+      "path": "dist/assets/ice-2.webp",
+      "name": "冰霜塔・凍結分支",
+      "sha": "ac477bfb90a6ba02d0a8a1b36ec7c92d1cb2eaa4",
+      "size": 33762
+    },
+    {
+      "path": "dist/assets/ice-3.webp",
+      "name": "冰霜塔・寒流最終型態",
+      "sha": "6a91977fa3cce2fd2b017aaf0c18bcc4e1a5b609",
+      "size": 37010
+    },
+    {
+      "path": "dist/assets/ice-4.webp",
+      "name": "冰霜塔・凍結最終型態",
+      "sha": "adc501f89382d3be091e5a991fbaf5a95e56cd6c",
+      "size": 27808
+    }
+  ]
+}
