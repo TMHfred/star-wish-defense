@@ -1,0 +1,1 @@
+{"name":"star-wish-defense-remake","version":"0.1.0","private":true,"scripts":{"dev":"python3 -m http.server 8000 --directory dist","test":"node tests/model.test.cjs && node tests/campaign.test.cjs","check":"node --check dist/stages.js && node --check dist/model.js && node --check dist/scene.js && node --check dist/ui.js"},"engines":{"node":">=20"}}
