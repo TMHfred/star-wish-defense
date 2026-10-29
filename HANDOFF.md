@@ -107,6 +107,13 @@ Phaser 4.2.1 本地 vendor；四場景十二關、8～15 波、八種敵人；�
 - 新增 ice-assets.test.cjs：檢查五張完整檔案雜湊／大小與版本網址；browser-ice-assets.test.py 核對實際 HTTP 回應與 Phaser 解碼像素、五張圖鑑載入、基本→分支→最終兩路線及最終 146 世界單位寬度。
 - 上述素材模型／檔案／瀏覽器檢查已通過；圖片原檔未變更。準備與手機視口修正一起同步 GitHub Pages，發布設定維持 main / (root)，不改玩法。
 
+## 手機視口與核准冰塔更新已發布
+- 環境恢復後完成正式根目錄的手機回歸測試，通過舊 Phaser／父元素／innerHeight 故障注入、反覆轉向、背景返回、點擊區與觸控建塔。npm test、npm run check、正式根目錄所有檔案雜湊均通過。
+- 正式 main 已更新至 92bb068（Publish viewport synchronization and approved ice tower textures）；build-info.json 的 build_id 為 1119d76800eb5868。
+- GitHub Pages 工作 https://github.com/TMHfred/star-wish-defense/actions/runs/40726893535 已核對此次提交並回報 COMPLETED / SUCCESS。正式網址維持 https://tmhfred.github.io/star-wish-defense/ 。
+- 新版冰塔五張原檔皆直接來自 6fbcb18，根目錄／dist／manifest 的雜湊一致；戰場與圖鑑實際回應、解碼像素及兩條最終進化驗證已通過，沒有從舊圖集裁切。
+- 更新前版本已保存遠端 backup/pre-mobile-63b96a1，未 force push。實體 iPhone／Safari 的裁切症狀仍需使用者試玩確認；本環境無 tmhfred.github.io 存取權，未宣稱線上瀏覽器或實體手機測試已通過。
+
 ## 第一階段：建造操作、目標優先與六塔基本特效
 
 - 開發分支 `remake/phase-one-combat`，基於本次環境既有 `92bb068`；只修改 dist 開發入口與文件／測試，根目錄正式網站未同步，未推送、合併或部署。
@@ -160,3 +167,10 @@ Phaser 4.2.1 本地 vendor；四場景十二關、8～15 波、八種敵人；�
 - 正式封裝 build_id=d03bb391eb810e55，channel=github-pages，包含 .nojekyll、內容指紋 JS/CSS 與 SHA-256 清單，移除 viewport-debug 引用。封裝在本機 /star-wish-defense/ 子路徑通過 browser-home、browser-phase-three、browser-campaign；npm test／npm run check／git diff --check 亦通過。
 - 本次網站採 v2 全員從零旅程；無中途戰鬥存檔，未做實體 iPhone／Safari 驗證。發布包含目前三階段與使用者指定主頁，第四階段仍另列待辦。
 - 當前環境可讀 GitHub Actions HTML；tmhfred.github.io 與 api.github.com 請求遭代理 CONNECT 403。已將兩網域保存至環境設定草稿；草稿不代表執行環境已套用。部署成功需核對對應提交的 Pages 工作，正式站 build-info.json 的直接驗證另受此限制。
+
+## 本輪正式部署結果
+
+- 正式 main：708a2312e0909b229caddeb4249926188e14fff7，build_id=d03bb391eb810e55。GitHub Pages 工作 https://github.com/TMHfred/star-wish-defense/actions/runs/40900471999 對應此提交，已回報 Status Success，總耗時 33 秒，deploy 工作 13 秒；回傳正式網址 https://tmhfred.github.io/star-wish-defense/ 。
+- 遠端 backup/pre-journey-v2-92bb068 已建立，指向原 main 92bb068。備份與 remake 的第一次原子推送因遠端有額外交接紀錄而拒絕，但同批發布指令未中止，main 先更新；已立即補建獨立備份，並將遠端原有紀錄與本輪內容合併保留，沒有 force push。
+- 開發內容提交 06ba8c0；目前開發工作分支改名為 journey-v2-development，追蹤 origin/remake，避免本地 remake/ 子分支名稱與既有遠端 remake 名稱衝突。正式根目錄產物保留於 release/journey-v2／遠端 main。
+- GitHub Actions 成功是部署證據；目前政策未允許正式站 HTTP，尚未完成線上 build-info.json／瀏覽器端到端驗證。所需 api.github.com、tmhfred.github.io 已保存環境草稿，需在環境設定檢閱儲存、發布雲端環境後才可套用。
