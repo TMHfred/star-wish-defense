@@ -4,8 +4,22 @@
 <div id="platforms" hidden aria-label="建塔位置"></div><div id="status" hidden aria-live="polite">點選石台，安排你的守護小隊</div><div id="toast" role="status" hidden></div>
 
 <section id="tray" hidden aria-label="守護塔操作"><div id="trayContent"></div><button id="closeTray" class="close" aria-label="關閉建塔選單">×</button></section>
-<section id="home"><div class="home-copy"><div class="eyebrow"><span></span> A LITTLE MAGIC, A GREAT ADVENTURE</div><h1><img src="assets/title.webp" alt="星之祈願：守護小隊"></h1><p class="home-line">在星光落下的森林，築起你的魔法防線。</p><button id="startBtn" class="start">開始守護 <span>✦</span></button><div class="home-links"><button id="helpBtn">玩法說明</button><button id="galleryBtn">守護塔圖鑑</button><button id="soundBtn" aria-pressed="false">音效：關閉</button></div><div class="home-note"><span>花語森林</span> 四場景十二關 · 六塔守護旅程</div></div><div class="home-art" aria-hidden="true"><div class="magic-ring"></div><img class="hero-castle" src="assets/castle-0.webp" alt=""><img class="hero-bow" src="assets/bow-3.webp" alt=""><img class="hero-fire" src="assets/fire-3.webp" alt=""><span class="spark one">✦</span><span class="spark two">✦</span><span class="spark three">✧</span><div class="art-caption">一片森林，六種守護。</div></div><small class="build-label">REIMAGINED · 12 STAGES</small></section>
-<dialog id="modal"><div class="modal-head"><div><small id="modalKicker">STAR WISH DEFENSE</small><h2 id="modalTitle"></h2></div><button class="close" id="closeModal" aria-label="關閉視窗">×</button></div><div id="modalBody"></div></dialog>
+<section id="home" class="home-forest" aria-labelledby="homeTitle">
+<img class="home-background" src="assets/home-forest.png" alt="" fetchpriority="high">
+<h1 id="homeTitle" class="sr-only">星之祈願：守護小隊</h1>
+<p class="sr-only">讓每一束星光，成為守護的力量。六種元素環繞星光森林。</p>
+<div class="home-controls">
+<button id="startBtn" class="home-main start">開始遊戲</button>
+<button id="continueBtn" class="home-main home-continue" disabled>繼續冒險</button>
+<div class="home-links" aria-label="主選單">
+<button id="helpBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6C8 3 4 4 2 5v15c4-2 7-1 10 1 3-2 6-3 10-1V5c-2-1-6-2-10 1Z"/><path d="M12 6v15M5 8l4 1M15 9l4-1"/></svg>玩法說明</button>
+<button id="galleryBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 7 7-2 11-5 2-5-2L5 9Z"/><path d="M12 2v20M5 9l7 6 7-6M7 17l5 3 5-3"/></svg>防禦塔圖鑑</button>
+<button id="newsBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 13-5v16L3 15ZM3 9H1v6h2M6 16l2 6h4l-2-5M20 8l3-2M20 12h4M20 16l3 2"/></svg>更新公告</button>
+<button id="settingsBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3 1-2h4l1 2 3 2 3 1 1 4-2 2v2l2 2-1 4-3 1-3 1H9l-3-2-3-1-1-4 2-2v-2L2 8l1-4 3 1Z"/><circle cx="12" cy="12" r="4"/></svg>設定</button>
+</div>
+</div>
+</section>
+<dialog id="modal"><div class="modal-head"><div><small id="modalKicker">STAR WISH DEFENSE</small><h2 id="modalTitle"></h2></div><button class="close" id="closeModal" aria-label="關閉視窗">×</button></div><div id="modalBody"></div><div id="modalFooter" class="modal-actions" hidden></div></dialog>
 <div id="rotate"><div class="phone-shape"></div><strong>請將手機橫放</strong><p>讓整片魔法森林，展開在你眼前。</p><small>遊戲已暫停 · 橫放後點選繼續</small></div>
 <div id="loader"><span>✦</span><strong>正在喚醒魔法森林</strong><div><i id="loadBar"></i></div><small id="loadText">準備守護小隊…</small></div>
 <script src="viewport-debug.js"></script><script src="vendor/phaser.min.js"></script><script src="stages.js"></script><script src="model.js"></script><script src="asset-urls.js"></script><script src="viewport.js"></script><script src="scene.js"></script><script src="ui.js"></script></body></html>

@@ -27,3 +27,56 @@ header nav,.resources,#battleFoot{flex-shrink:0}
 
 /* Explicit visible-viewport dimensions are synchronized by viewport.js. */
 #game{inset:auto;left:0;top:0;width:100%;height:100dvh;overflow:hidden}
+
+/* Keep priority controls reachable without growing the mobile tray. */
+.target-priority{min-width:82px}
+@media(max-width:1000px){#trayContent:has(#targetPriority) .stats{display:none}}
+@media(max-width:760px) and (orientation:landscape){
+ #trayContent:has(#targetPriority) .tower-title{display:none}
+ #trayContent:has(#targetPriority) .tray-action{min-width:74px;padding:4px 6px}
+ #trayContent:has(#targetPriority) .tray-info{min-width:44px;width:44px}
+}
+.tower-title small{white-space:nowrap}
+
+/* User-selected star forest home: image art and real, scalable controls. */
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+#home.home-forest{display:block;padding:0;background:#102e36;isolation:isolate}
+.home-background{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-1;pointer-events:none}
+.home-controls{position:absolute;top:58%;left:50%;transform:translateX(-50%);width:min(91vw,760px);display:flex;align-items:center;flex-direction:column;gap:clamp(7px,1vh,12px)}
+.home-forest button{font-family:"Noto Serif TC","PMingLiU",serif;color:#493a22;min-height:44px;border:3px double #9d8254;background:linear-gradient(100deg,#f5edda,#fff9e9 48%,#e4d2ae);box-shadow:inset 0 0 0 2px #fff9e0b0,0 4px 9px #04191c80;letter-spacing:.12em;border-radius:40px;position:relative;text-shadow:0 1px #fff8de;transition:filter .15s,box-shadow .15s}
+.home-forest button:active{transform:translateY(1px);box-shadow:inset 0 1px 4px #6e552c66,0 2px 4px #04191c80}
+.home-forest .home-main{width:clamp(220px,26vw,400px);padding:4px 25px;font-size:clamp(19px,2.1vw,32px);height:clamp(44px,8vh,74px);font-weight:700}
+.home-forest .start{background:linear-gradient(110deg,#e5bb72,#ffe6a4 48%,#d5a252);border-color:#a87d3e;color:#392b17;display:block}
+.home-forest .home-main::before,.home-forest .home-main::after{content:"✧";position:absolute;top:50%;transform:translateY(-50%);font-size:20px;color:#96713b;left:14px}
+.home-forest .home-main::after{left:auto;right:14px}
+.home-forest .home-continue{height:clamp(44px,6.8vh,60px);font-size:clamp(18px,1.9vw,28px)}
+.home-forest .home-continue:disabled{opacity:.7;filter:saturate(.5)}
+.home-forest .home-links{display:flex;justify-content:center;gap:10px;margin-top:6px;width:100%}
+.home-forest .home-links button{display:flex;align-items:center;justify-content:center;gap:8px;flex:1;max-width:185px;padding:6px 12px;font-size:clamp(12px,1.2vw,17px);height:clamp(44px,6vh,54px);white-space:nowrap;letter-spacing:.04em}
+.home-forest .home-links span{font-size:20px;line-height:1}
+@media(max-height:500px){.home-controls{top:57%;gap:6px;width:min(91vw,620px)}.home-forest .home-main{height:44px;font-size:20px}.home-forest .home-continue{font-size:19px}.home-forest .home-links{margin-top:4px;gap:7px}.home-forest .home-links button{height:44px;font-size:12px;padding:5px 8px;gap:5px}.home-forest .home-links span{font-size:19px}}
+@media(orientation:portrait){#home.home-forest{visibility:hidden}}
+
+.home-forest .home-links svg{width:20px;height:20px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.home-forest .home-continue:disabled{opacity:1;color:#887b65;background:linear-gradient(110deg,#e7dfce,#ede5d4 48%,#d3c5a9);filter:saturate(.6);text-shadow:none}
+
+.journey-summary{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;font-size:12px}.journey-summary button{font-size:12px;padding:6px 12px}
+.stage-stars span{display:inline-block}.stage-card:disabled{opacity:.65;filter:saturate(.35)}
+.objectives-list{list-style:none;padding:0;margin:10px 0;display:grid;gap:8px}.objectives-list li{display:flex;gap:12px;align-items:flex-start;border:1px solid #dce3c8;background:#edf1e3;padding:10px 12px;border-radius:13px}
+.objective-star{color:#9b9c87;font-size:27px;line-height:1.3}.objective-star.earned{color:#b8892e}.objectives-list strong{font-size:14px}.objectives-list p{font-size:12px;margin:2px 0!important}.objectives-list small{font-size:11px;color:#697e64}
+.ready-roster{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.ready-roster>span{text-align:center;background:#eaf0df;border-radius:12px;padding:7px;font-size:12px}.ready-roster img{display:block;margin:0 auto 3px;width:48px;height:48px;object-fit:contain}.ready-roster small{display:block;font-size:10px}.ready-roster .locked{filter:grayscale(.8);opacity:.65}
+.unlock-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.unlock-list>div{background:#edf1e1;padding:10px;border-radius:12px}.unlock-list small{display:block;font-size:11px;color:#6f8269}.reward-options{display:flex;flex-wrap:wrap;gap:7px}.reward-options button{min-height:48px;flex:1 0 27%;font-size:12px;padding:6px}.reward-options small{display:block;font-size:10px}.reward-options [aria-pressed=true]{border-color:#ba944d;background:#f3e7c5}.unlock-notice{padding:10px;border-radius:12px;background:#f3e6bf;color:#705321}
+.enemy-brief summary{min-height:44px;display:list-item;cursor:pointer;padding:10px 4px;font-weight:700}.enemy-brief p{font-size:12px}
+@media(max-height:500px){.objectives-list li{padding:7px 10px;gap:9px}.objectives-list{gap:6px}.objective-star{font-size:24px}.journey-summary{margin-top:7px}.ready-roster img{width:42px;height:42px}}
+
+.prepare-dialog[open]{display:flex;flex-direction:column;overflow:hidden;width:min(1000px,94vw)}
+.prepare-dialog .modal-head{flex-shrink:0}.prepare-dialog #modalBody{overflow-y:auto;min-height:0;overscroll-behavior:contain}
+.prepare-dialog #modalFooter{flex-shrink:0;margin-top:12px}.prepare-layout{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:20px}.prepare-goals h3{margin-top:0}.prepare-overview .route-preview{height:110px}.prepare-goals .objectives-list{margin-top:0}
+@media(max-height:500px){.prepare-layout{grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:12px}.prepare-dialog{padding:14px}.prepare-dialog .modal-head{margin-bottom:8px}.prepare-dialog .modal-head h2{font-size:18px}.prepare-overview .route-preview{height:70px}.prepare-overview p{font-size:11px;margin:5px 0!important}.prepare-overview .enemy-brief summary{font-size:11px}.prepare-goals h3{font-size:13px;margin-bottom:6px}.prepare-goals .objectives-list li{padding:5px 8px;gap:6px}.prepare-goals .objectives-list strong{font-size:12px}.prepare-goals .objectives-list p{font-size:11px;line-height:1.45}.prepare-goals .objectives-list small{font-size:10px}.prepare-goals .objective-star{font-size:22px}.prepare-dialog #modalFooter{margin-top:8px}}
+@media(max-height:500px){.prepare-goals .objectives-list small{display:none}.prepare-goals .objectives-list li>div{line-height:1.35}.prepare-goals .objectives-list p{line-height:1.35}}
+@media(max-height:500px){.prepare-dialog .modal-head small{display:none}.prepare-goals h3{margin-bottom:4px}.prepare-goals .objectives-list li{padding-top:4px;padding-bottom:4px}}
+#trayContent .shop{position:relative;overflow:hidden}#trayContent .shop:disabled{opacity:.75}#trayContent .shop:disabled img{filter:grayscale(.85)}#trayContent .shop:disabled::after{content:"待解鎖";position:absolute;left:0;right:0;bottom:0;background:#fffbedeb;color:#53634b;font-size:10px;line-height:16px;text-align:center}
+
+.enemy-mechanic{display:block;font-size:11px;color:#6c8066;margin-top:5px;line-height:1.5}.journey-summary{flex-wrap:wrap}.journey-summary #trialBtn{margin-left:auto}
+.blessing-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.blessing-cards button{display:flex;flex-direction:column;align-items:center;gap:9px;padding:18px 12px;background:linear-gradient(#fff8dc,#e7edda);border-color:#cdb778;min-height:180px}.blessing-cards button>span{font-size:30px;color:#b08c3e}.blessing-cards strong{font-size:17px}.blessing-cards small{font-size:12px;font-weight:400;line-height:1.6}.blessing-lead{text-align:center;color:#6e8265}.blessing-dialog #modalFooter button{min-height:44px}
+@media(max-height:500px){.blessing-cards{gap:7px}.blessing-cards button{min-height:140px;padding:9px 7px;gap:5px}.blessing-cards button>span{font-size:21px}.blessing-cards strong{font-size:14px}.blessing-cards small{font-size:11px}.blessing-lead{font-size:12px;margin:4px 0 8px!important}.blessing-dialog .modal-head h2{font-size:17px}.journey-summary{gap:6px}.journey-summary button{padding:5px 8px}}

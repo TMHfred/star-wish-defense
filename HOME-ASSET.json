@@ -1,0 +1,13 @@
+{
+  "asset": "dist/assets/home-forest.png",
+  "size": [
+    1846,
+    852
+  ],
+  "sha256": "2c92c214eb4a86e9a95242bfbddbae08e366f017435f677ad7e92f438237a04a",
+  "reference": "User-supplied star forest title screen attached in this conversation; selected by user to replace the earlier castle-and-six-towers composition.",
+  "derivation": "Controlled image_gen edit to remove six painted buttons and reconstruct the terrace behind them. Title, star, elemental emblems and forest composition were used as the visual locks. Actual controls are HTML/CSS/SVG.",
+  "reference_approval": "User selected the reference; the cleaned derivative was inspected in the running game by the assistant.",
+  "generated_original": "/workspace/generated_images/exec-9b1f75ac-1b6d-401f-8aea-39c63bec2761.png",
+  "usage": "Home screen only; does not replace approved tower or ice artwork."
+}

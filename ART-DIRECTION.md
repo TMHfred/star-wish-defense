@@ -19,3 +19,10 @@
 - Mobile viewport sizing is explicitly synchronized through viewport.js and Phaser Scale.NONE; this changes size/lifecycle synchronization, not the 1280×400 world, tower widths or world fitting formula. DOM platform targets are refreshed with the renderer after rotation/restore.
 
 - Ice art supersedes the earlier v19 crops: use the five independent files supplied by remake commit 6fbcb18 and governed by ICE-ASSETS.md / ICE-ASSETS.json. Preserve their exact bytes, transparency, bases and distinct final structures. scripts/update-ice-assets.py validates the approved Git blob SHA/byte sizes and generates only shared URL versions; it never writes image data. Phaser preload, shop, tower portrait and gallery all use ForestArt.url().
+
+## 主頁面圖更新（使用者指定）
+
+- 後續主頁面以使用者指定的圖片為準，取代先前「城堡中心、六塔兩側、遠方星門」的自製集結構圖方案。
+- 使用者提供的參考連結：https://chatgpt.com/s/m_6ae352c390d08191a87cbee0f0202aed
+- 分享連結最初遭代理拒絕（CONNECT 403）；使用者隨後在對話中直接提供 1846×852 的星光森林主頁圖。使用 image_gen 清除六個烘焙按鈕並補回石台，產生 `dist/assets/home-forest.png`，來源與 SHA-256 記於 HOME-ASSET.json。
+- 已整合至 dist 開發主頁，以獨立 HTML 按鈕承接開始、繼續、說明、圖鑑、公告與設定。背景 cover 置中，手機橫向優先；標題與六元素圖案沿用參考圖，桌面較窄比例會裁切外側森林。根目錄正式站尚未同步。

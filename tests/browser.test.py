@@ -2,6 +2,7 @@
 Requires Python Playwright and Chromium. No dependencies are downloaded.
 """
 import os
+from browser_fixtures import seed_all_unlocks
 from playwright.sync_api import sync_playwright
 
 with sync_playwright() as p:
@@ -9,6 +10,7 @@ with sync_playwright() as p:
         executable_path=os.environ.get('CHROMIUM_PATH', '/usr/bin/chromium'),
         headless=True, args=['--no-sandbox'])
     page = browser.new_page(viewport={'width': 844, 'height': 390})
+    seed_all_unlocks(page)
     errors = []
     failed_resources = []
     page.on('response', lambda response: failed_resources.append(response.url) if response.status >= 400 else None)
@@ -17,6 +19,7 @@ with sync_playwright() as p:
     page.wait_for_function('window.battle && window.UI')
     page.locator('#startBtn').click()
     page.locator('[data-stage="0"]').click()
+    page.locator('#beginStage').click()
     # Test fixture funds let every branch reach its final form without balance changes.
     page.evaluate('battle.model.gold = 100000')
     for tower_type in range(6):

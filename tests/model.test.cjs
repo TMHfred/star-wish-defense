@@ -77,3 +77,89 @@ g=new F.Game;g.gold=99999;for(let type=0;type<6;type++){const tower=g.build(type
 for(let i=0;i<60000&&!['won','lost'].includes(g.phase);i++)g.step(.05);
 assert.equal(g.phase,'won');assert.equal(g.wave,8);
 console.log('PASS: six guardians, all evolution forms, ice slow/freeze, chain falloff/radius, beam lock/ramp/reset, meteor delay/splash and six-tower victory');
+
+// Priorities are independent per tower; selection only affects subsequent shots.
+for(const type of [0,1,2,3,5]){
+ const{game,tower}=fixture(type);
+ const nearest=enemy(game,150,1200),strongest=enemy(game,220,3000),front=enemy(game,340,2000);
+ for(const [mode,expected]of [['first',front],['strongest',strongest],['nearest',nearest]]){
+  assert.equal(game.setTargetMode(tower,mode),true);tower.cooldown=0;game.shots=[];game.drain();game.step(.001);
+  const shot=game.drain().find(e=>e.type==='fire').shot;assert.equal(shot.target,expected.id,`${type}: ${mode}`);
+  game.setTargetMode(tower,mode==='first'?'nearest':'first');assert.equal(shot.target,expected.id);
+ }
+ const other=game.build(1,0).tower;assert.equal(other.targetMode,'first');
+ game.setTargetMode(tower,'strongest');game.setTargetMode(other,'nearest');assert.equal(tower.targetMode,'strongest');assert.equal(other.targetMode,'nearest');
+ assert.equal(game.setTargetMode(tower,'__proto__'),false);assert.equal(game.setTargetMode({...tower},'nearest'),false);
+ game.upgrade(tower,type===5?undefined:0);assert.equal(tower.targetMode,'strongest');
+}
+// Explicit retarget resets a beam's charge, while selecting the same mode preserves its lock.
+{
+ const{game,tower}=fixture(4);const first=enemy(game,340,10000),strong=enemy(game,220,20000);
+ advance(game,.2);assert.equal(tower.targetId,first.id);assert.ok(tower.charge>0);
+ const charge=tower.charge;game.setTargetMode(tower,'first');assert.equal(tower.charge,charge);
+ game.setTargetMode(tower,'strongest');assert.equal(tower.charge,0);assert.equal(tower.targetId,null);
+ advance(game,.01);assert.equal(tower.targetId,strong.id);assert.ok(tower.charge<.02);
+}
+// Highest HP and closest ties fall back to remaining route distance, then spawn ID.
+{
+ const{game,tower}=fixture(0);const a=enemy(game,150),b=enemy(game,150);
+ for(const mode of Object.keys(F.TARGET_MODES)){game.setTargetMode(tower,mode);assert.ok(game.compareTargets(tower,a,b)<0);}
+ const dual=new F.Game(1),t=dual.build(0,0).tower;
+ const aRoute={id:1,routeIndex:0,distance:dual.routeLengths[0]-100,hp:10,x:t.x+20,y:t.y};
+ const bRoute={id:2,routeIndex:1,distance:dual.routeLengths[1]-50,hp:10,x:t.x-20,y:t.y};
+ for(const mode of Object.keys(F.TARGET_MODES)){dual.setTargetMode(t,mode);assert.ok(dual.compareTargets(t,bRoute,aRoute)<0);}
+}
+// Chain priority chooses its first victim only; subsequent jumps remain nearest-neighbour.
+{
+ const{game,tower}=fixture(3,0);const near=enemy(game,150,10000),strong=enemy(game,220,20000),front=enemy(game,340,10000);
+ game.setTargetMode(tower,'strongest');advance(game,.1);
+ const chain=game.drain().find(e=>e.type==='chain');assert.equal(chain.points[1].x,strong.x);assert.equal(chain.points[2].x,near.x);
+ assert.ok(20000-strong.hp>10000-near.hp);assert.ok(10000-near.hp>10000-front.hp);
+}
+// Impact events follow a moving arrow target, while splash/meteor keep their launch-time location.
+{
+ const{game,tower}=fixture(0);const e=enemy(game,150);game.step(.01);const shot=game.shots[0];tower.cooldown=100;
+ e.distance=220;Object.assign(e,F.position(220));advance(game,.2);
+ const impact=game.drain().find(e=>e.type==='impact');assert.equal(impact.x,e.x);assert.notEqual(impact.x,shot.tx);assert.equal(impact.landed,true);
+ const dead=fixture(0);const victim=enemy(dead.game,150);dead.game.step(.01);victim.hp=0;advance(dead.game,.2);
+ assert.equal(dead.game.drain().find(e=>e.type==='impact').landed,false);
+}
+console.log('PASS: per-tower priorities, stable ties and dual routes, beam reset, chain-first priority, in-flight invariance and live impact coordinates');
+
+// Challenge counters observe real model events rather than UI clicks or sprite effects.
+{
+ const{game,tower}=fixture(2,1);const e=enemy(game,150,10000);tower.attacks=3;
+ advance(game,.45);assert.equal(game.metrics.freezes,1);assert.ok(e.freezeTime>0);
+ game.hit(e,e.hp,0);assert.equal(game.metrics.slowedKills,1);assert.equal(game.metrics.killsByType[0],1);
+ game.hit(e,100,0);assert.equal(game.metrics.slowedKills,1); // no duplicate credit
+ assert.equal(game.metrics.peak,1);game.sell(tower);assert.equal(game.metrics.sales,1);assert.equal(game.metrics.peak,1);
+ const fresh=new F.Game;assert.equal(fresh.metrics.sales,0);assert.equal(fresh.metrics.freezes,0);
+}
+{
+ const{game}=fixture(3,0);[150,170,190].forEach(d=>enemy(game,d));advance(game,.1);
+ assert.equal(game.metrics.chainHits,3);
+ const{game:beam}=fixture(4);const elite=enemy(beam,150,1,6);advance(beam,.1);
+ assert.equal(beam.metrics.beamEliteKills,1);assert.equal(beam.metrics.killsByType[4],1);
+}
+// All three goals require a win; the health goal uses the new 80% threshold.
+for(const stage of F.STAGES){
+ const game=new F.Game(stage.id);assert.ok(stage.challenge.name&&stage.challenge.description);
+ const goals=F.objectiveStatus(game);assert.equal(goals.length,3);assert.ok(goals.every(g=>!g.complete));
+ assert.equal(goals[1].target,16);game.hp=15;assert.equal(F.objectiveStatus(game)[1].met,false);
+ game.phase='won';game.hp=16;assert.equal(F.objectiveStatus(game)[0].complete,true);assert.equal(F.objectiveStatus(game)[1].complete,true);
+ const c=stage.challenge,m=game.metrics;
+ if(c.kind==='variety')m.killsByType.fill(c.each);
+ else if(c.kind==='peak')m.peak=c.limit;
+ else if(c.kind==='sales')m.sales=c.limit;
+ else if(c.kind==='gold')game.gold=c.target;
+ else m[c.kind]=c.target;
+ assert.equal(F.challengeStatus(game).complete,true,stage.name);
+ if(c.kind==='variety')m.killsByType.fill(0);
+ else if(c.kind==='peak')m.peak=c.limit+1;
+ else if(c.kind==='sales')m.sales=c.limit+1;
+ else if(c.kind==='gold')game.gold=c.target-1;
+ else m[c.kind]=c.target-1;
+ assert.equal(F.challengeStatus(game).complete,false,stage.name);
+ game.phase='lost';assert.ok(F.objectiveStatus(game).every(g=>!g.complete));
+}
+console.log('PASS: challenge counters, kill attribution, freeze/slow/chain metrics, per-stage special goals and win-gated 80% health objectives');

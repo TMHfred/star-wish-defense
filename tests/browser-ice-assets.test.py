@@ -2,6 +2,7 @@
 import hashlib
 import json
 import os
+from browser_fixtures import seed_all_unlocks
 from pathlib import Path
 from urllib.parse import urlparse,parse_qs
 from playwright.sync_api import sync_playwright
@@ -11,6 +12,7 @@ expected={Path(f['path']).name:f for f in manifest['files']}
 with sync_playwright() as p:
     browser=p.chromium.launch(executable_path=os.environ.get('CHROMIUM_PATH','/usr/bin/chromium'),headless=True,args=['--no-sandbox'])
     page=browser.new_page(viewport={'width':844,'height':390})
+    seed_all_unlocks(page)
     errors=[];responses=[]
     page.on('pageerror',lambda e:errors.append(str(e)))
     page.on('response',lambda r:responses.append(r) if Path(urlparse(r.url).path).name in expected else None)
@@ -41,6 +43,7 @@ with sync_playwright() as p:
         page.locator(f'[data-form="{i}"]').click()
     page.screenshot(path='/tmp/approved-ice-gallery.png')
     page.locator('#closeModal').click();page.locator('#startBtn').click();page.locator('[data-stage="0"]').click()
+    page.locator('#beginStage').click()
     page.evaluate('battle.model.gold=100000')
     for branch in range(2):
         page.locator(f'#pad{branch}').click();page.locator('[data-shop="2"]').click();page.locator('#confirmBuild').click()

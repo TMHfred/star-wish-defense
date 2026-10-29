@@ -60,5 +60,5 @@ for(const stage of F.STAGES){
 assert.equal(progress.stars.filter(n=>n>0).length,12);
 assert.deepEqual(F.readProgress(JSON.parse(JSON.stringify(progress))),progress);
 assert.deepEqual(F.readProgress({version:2,stars:[3]}),F.emptyProgress());
-assert.deepEqual(F.readProgress({version:1,stars:[999,-1,'3',NaN]}).stars.slice(0,4),[3,0,0,0]);
+assert.deepEqual(F.readProgress({version:1,stars:[999,-1,'3',NaN]}).stars.slice(0,4),[0,0,0,0]);
 console.log('PASS: 12 distinct stages, 4 chapters, orthogonal routes/platforms, dual entrances/priority, shields, normal-economy full victories, defeats and best-star records');

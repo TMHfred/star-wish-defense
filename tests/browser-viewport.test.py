@@ -1,16 +1,19 @@
 """Mobile viewport recovery in Chromium, with explicit stale-measurement fixtures."""
 import os
+from browser_fixtures import seed_all_unlocks
 from playwright.sync_api import sync_playwright
 
 with sync_playwright() as p:
     browser=p.chromium.launch(executable_path=os.environ.get('CHROMIUM_PATH','/usr/bin/chromium'),headless=True,args=['--no-sandbox'])
     page=browser.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True,device_scale_factor=3)
+    seed_all_unlocks(page)
     errors=[]
     page.on('pageerror',lambda e:errors.append(str(e)))
     page.goto(os.environ.get('GAME_URL','http://127.0.0.1:8001/'),wait_until='networkidle')
     page.wait_for_function('window.battle && window.UI')
     page.set_viewport_size({'width':844,'height':390});page.wait_for_timeout(450)
     page.locator('#startBtn').tap();page.locator('[data-chapter="3"]').tap();page.locator('[data-stage="11"]').tap()
+    page.locator('#beginStage').tap()
 
     def aligned(width,height):
         page.wait_for_timeout(450)
