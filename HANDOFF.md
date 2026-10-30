@@ -223,3 +223,12 @@ Phaser 4.2.1 本地 vendor；四場景十二關、8～15 波、八種敵人；�
 - 公告草稿位於 /workspace/star-wish-supply-preview/announcement-draft.md，僅本機交付審閱，不在 repo 或正式封裝；news() 公告內容維持原樣。參考圖 home-844.png、shop-667.png／shop-844.png／shop-1440.png、confirm-drink-844.png、thanks-drink-844.png 同放 preview 目錄。
 - 發布前已核對遠端 main=c57ef52c587feb7964de4c4986cbae41fb4f10ad，先建立遠端 backup/pre-supply-c57ef52 指向該版本。完整本機備份 /workspace/star-wish-supply-production/main-before-c57ef52.tar，SHA-256=98d513d11e55ceb0693cff1b2202dc4015115ff003d45349b84775a884af076e。無 force push，尚須核對本次 Pages 部署工作才能宣稱上線。
 - 發布前原首頁 browser-home 回歸亦通過：原有開始、說明、圖鑑、公告、設定、分頁內戰鬥續玩、刷新後選關，以及準備頁三項挑戰／開始操作正常。正式封裝完整商店測試與原功能回歸均完成，現在可進行發布整合。
+
+## 星願補給所正式部署完成
+
+- 依使用者最新「修改完後直接發布到正式版」授權，main 已正常 fast-forward 更新至 22b84236112a3b28c8f0ce675edf6b2317360eb0，build_id=ec38df45940a876e。原網址 https://tmhfred.github.io/star-wish-defense/ 的主頁次要入口為「星願補給所」。
+- Pages 工作 https://github.com/TMHfred/star-wish-defense/actions/runs/40997799365 對應 22b8423，Status Success，總耗時 38 秒，deploy 工作成功並回傳正式網址。遠端 backup/pre-supply-c57ef52 已在發布前核對，無 force push。
+- 正式封裝的完整商店回歸、原首頁／續玩／準備頁回歸、六組模型／收藏／素材測試、程式與 Python 測試語法檢查均通過。568×320 補測及其餘四尺寸皆無橫向溢出、入口／關閉可用；既有旅程與戰鬥規則保留。
+- 公告草稿僅在 /workspace/star-wish-supply-preview/announcement-draft.md，未納入 repo／正式封裝；已比對 news() 與發布前完全相同。後續需使用者審核後才更新遊戲內公告。
+- 已再次嘗試直接讀正式 build-info.json，但本環境仍遭 CONNECT 403；未宣稱正式網域端到端或實體 iPhone／Safari 已通過。部署證據、測試報告與 ZIP 在 /workspace/star-wish-supply-production，摘要 deployment-result.json。
+- 開發來源提交 34dbce9；已返回 journey-v2-development 並核對 dist／tests／package.json 與 origin/main 相同。原始碼公開與發布操作使用環境既有 GitHub CLI credential helper，不新增／顯示任何 Token。
