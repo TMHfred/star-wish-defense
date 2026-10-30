@@ -198,3 +198,13 @@ Phaser 4.2.1 本地 vendor；四場景十二關、8～15 波、八種敵人；�
 - 已先完成遠端備份並以 ls-remote 核對：backup/pre-mobile-polish-708a231 指向 708a2312e0909b229caddeb4249926188e14fff7。主分支更新必須在正式封裝互動回歸通過後進行。
 - 正式封裝回歸在 DPR 3／1440×900 發現相機矩陣可能落後尺寸更新。已暫停發布並中止未提交的發布分支整合，main 未變更。可控重現：停止渲染後由 844×390 切換至 1440×900，相機屬性已更新，但 getWorldPoint 的預期 (300,200) 仍回傳約 (228.229,152.111)；preRender 同步後恢復約 (300,200)。
 - 修正：Scene.layout 在更新相機縮放後立即 preRender，讓顯示／點擊矩陣同步，不依賴下一次渲染影格。新增停止渲染再往返手機／大畫面的回歸條件。正式發布封裝因此更新為 c6ba0282b993ee6a（取代前述 e4eabd83e077cbd6，視覺設計不變）。此修正不改模型、素材或存檔。
+
+## 手機優化正式部署完成
+
+- 正式網址：https://tmhfred.github.io/star-wish-defense/ 。main 已正常 fast-forward 更新至 c57ef52c587feb7964de4c4986cbae41fb4f10ad；正式 build_id=c6ba0282b993ee6a，包含發布前發現並修正的相機矩陣同步問題，原預覽 e4eabd83e077cbd6 的視覺設計保持一致。
+- GitHub Pages 工作 https://github.com/TMHfred/star-wish-defense/actions/runs/40980405473 對應 c57ef52，狀態 Success，總耗時 29 秒，deploy 工作成功並回傳正式網址。這是部署成功證據，不只是 Git push。
+- 已先建立並核對遠端 backup/pre-mobile-polish-708a231 指向原正式 708a231。全程無 force push，未重設旅程存檔，核准素材與模型數值維持原樣。
+- 修正版正式子路徑通過 DPR 3 四尺寸完整互動與渲染暫停縮放條件；DPR 1／2 另補測修正版暫停渲染時的 CSS／buffer／displayScale／相機點座標。相關報告、封裝與部署證據在 /workspace/star-wish-mobile-production，部署摘要為 deployment-result.json。
+- 本環境直接讀取正式站 build-info.json 仍遭 CONNECT 403，尚未完成正式網域 HTTP／瀏覽器端到端或實體 iPhone／Safari 驗證。不得將 Pages Success 宣稱為這些測試已通過。
+- 發布末段原生 Git 認證曾回覆 401「Invalid username or token」，但環境原有 GH_TOKEN 與 gh 可用。透過標準 GitHub CLI helper 恢復讀寫：git -c credential.helper='!gh auth git-credential' fetch／push／ls-remote。這是使用既有綁定，不需新增 Token、印出憑證或變更全域設定。後續遇同樣錯誤先檢查既有授權流程，勿直接要求使用者重連或提供 Token。
+- 已返回 journey-v2-development；dist、tests 與 package.json 核對與 origin/main 一致。後續功能仍在開發分支進行，正式發布照常備份及核對部署。
