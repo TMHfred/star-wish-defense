@@ -17,7 +17,7 @@ def renderer(page):
     state=page.evaluate('''()=>{
       const v=ForestViewport.measure(),c=phaserGame.canvas,r=c.getBoundingClientRect(),b=battle;
       const [x,y]=b.model.pads[0],p=b.cameras.main.getWorldPoint((b.world.x+x*b.worldScale)*c.width/r.width,(b.world.y+(y-18)*b.worldScale)*c.height/r.height);
-      return {css:[r.width,r.height],buffer:[c.width,c.height],view:[v.width,v.height],density:phaserGame.renderDensity,inputScale:[b.scale.displayScale.x,b.scale.displayScale.y],dpr:devicePixelRatio,world:[b.world.x,b.world.y,b.worldScale],cameraPoint:[p.x,p.y],expectedPoint:[b.world.x+x*b.worldScale,b.world.y+(y-18)*b.worldScale]};
+      return {css:[r.width,r.height],buffer:[c.width,c.height],view:[v.width,v.height],density:phaserGame.renderDensity,inputScale:[b.scale.displayScale.x,b.scale.displayScale.y],dpr:devicePixelRatio,world:[b.world.x,b.world.y,b.worldScale],cameraMatrix:Array.from(b.cameras.main.matrixCombined.matrix),cameraPoint:[p.x,p.y],expectedPoint:[b.world.x+x*b.worldScale,b.world.y+(y-18)*b.worldScale]};
     }''')
     assert state['css']==state['view'],state
     for i in range(2):
@@ -30,13 +30,22 @@ def renderer(page):
 with sync_playwright() as p:
     browser=p.chromium.launch(executable_path=os.environ.get('CHROMIUM_PATH','/usr/bin/chromium'),headless=True,args=['--no-sandbox'])
     reports=[]
-    for dpr in [int(n) for n in os.environ.get('POLISH_DPRS','1,2,3').split(',')]:
+    dprs=[int(n) for n in os.environ.get('POLISH_DPRS','1,2,3').split(',')]
+    for dpr in dprs:
         page=browser.new_page(viewport={'width':844,'height':390},device_scale_factor=dpr,is_mobile=True,has_touch=True)
         errors=[];failed=[]
         page.on('pageerror',lambda e:errors.append(str(e)))
         page.on('response',lambda r:failed.append(r.url) if r.status>=400 else None)
         page.goto(URL,wait_until='networkidle');page.wait_for_function('window.battle && window.UI')
         page.locator('#startBtn').tap();page.locator('[data-stage="0"]').tap();page.locator('#beginStage').tap()
+        # A delayed render frame must not leave native input on the old zoom matrix.
+        if dpr==3:
+            page.evaluate('phaserGame.loop.sleep()')
+            page.set_viewport_size({'width':1440,'height':900});page.wait_for_timeout(450)
+            renderer(page)
+            page.set_viewport_size({'width':844,'height':390});page.wait_for_timeout(450)
+            renderer(page)
+            page.evaluate('phaserGame.loop.wake()')
         # All key controls fit with separation. Wave preview replaces a separate preview button.
         sizes=[(844,390),(667,375),(932,430),(1440,900)] if dpr==3 else [(844,390)]
         for width,height in sizes:
@@ -92,4 +101,4 @@ with sync_playwright() as p:
         page.close()
     browser.close()
     with open(f'{OUT}/render-report.json','w') as f:json.dump(reports,f,indent=2)
-    print('PASS: DPR1/2/3 real drawing buffers; 844/667/932/1440 layouts; CSS/native Phaser input alignment; separated HUD; readable scrollable menu; resolution-independent effects; canceled/paused build, timed activation, sell and auto-wave setting.')
+    print('PASS: DPR '+','.join(map(str,dprs))+' real drawing buffers; 844/667/932/1440 layouts; CSS/native Phaser input alignment; separated HUD; readable scrollable menu; resolution-independent effects; canceled/paused build, timed activation, sell and auto-wave setting.')

@@ -196,3 +196,5 @@ Phaser 4.2.1 本地 vendor；四場景十二關、8～15 波、八種敵人；�
 - 最新遠端 main 基準為 708a2312e0909b229caddeb4249926188e14fff7。本機完整封存 /workspace/star-wish-mobile-production/main-before-708a231.tar，SHA-256=07cac442cccec352c328fd072c2b1bcb435a5154666f5d620c295a350d37df82。發布必須先建立並核對遠端 backup/pre-mobile-polish-708a231，再更新 main，禁止 force push。
 - 發布前再次通過 npm test、npm run check、git diff --check；正式封裝內容與預覽一致，不改旅程存檔鍵、素材或遊戲數值。實機幀率／耗電／Safari 仍未驗證；目前執行環境網路政策仍未允許正式 Pages 網域，部署結果須由對應提交的 Actions 工作確認，不能宣稱已完成直接線上端到端驗證。
 - 已先完成遠端備份並以 ls-remote 核對：backup/pre-mobile-polish-708a231 指向 708a2312e0909b229caddeb4249926188e14fff7。主分支更新必須在正式封裝互動回歸通過後進行。
+- 正式封裝回歸在 DPR 3／1440×900 發現相機矩陣可能落後尺寸更新。已暫停發布並中止未提交的發布分支整合，main 未變更。可控重現：停止渲染後由 844×390 切換至 1440×900，相機屬性已更新，但 getWorldPoint 的預期 (300,200) 仍回傳約 (228.229,152.111)；preRender 同步後恢復約 (300,200)。
+- 修正：Scene.layout 在更新相機縮放後立即 preRender，讓顯示／點擊矩陣同步，不依賴下一次渲染影格。新增停止渲染再往返手機／大畫面的回歸條件。正式發布封裝因此更新為 c6ba0282b993ee6a（取代前述 e4eabd83e077cbd6，視覺設計不變）。此修正不改模型、素材或存檔。
