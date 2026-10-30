@@ -80,3 +80,63 @@ header nav,.resources,#battleFoot{flex-shrink:0}
 .enemy-mechanic{display:block;font-size:11px;color:#6c8066;margin-top:5px;line-height:1.5}.journey-summary{flex-wrap:wrap}.journey-summary #trialBtn{margin-left:auto}
 .blessing-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.blessing-cards button{display:flex;flex-direction:column;align-items:center;gap:9px;padding:18px 12px;background:linear-gradient(#fff8dc,#e7edda);border-color:#cdb778;min-height:180px}.blessing-cards button>span{font-size:30px;color:#b08c3e}.blessing-cards strong{font-size:17px}.blessing-cards small{font-size:12px;font-weight:400;line-height:1.6}.blessing-lead{text-align:center;color:#6e8265}.blessing-dialog #modalFooter button{min-height:44px}
 @media(max-height:500px){.blessing-cards{gap:7px}.blessing-cards button{min-height:140px;padding:9px 7px;gap:5px}.blessing-cards button>span{font-size:21px}.blessing-cards strong{font-size:14px}.blessing-cards small{font-size:11px}.blessing-lead{font-size:12px;margin:4px 0 8px!important}.blessing-dialog .modal-head h2{font-size:17px}.journey-summary{gap:6px}.journey-summary button{padding:5px 8px}}
+
+/* Forest relic interface: warm ivory, aged gold and deep evergreen. */
+:root{--ink:#f7eed3;--panel:#173d36;--line:#b29a60;--soft:#bac9ad}
+body{color:var(--ink)}
+button{color:#443b26;border:3px double #a78b57;background:linear-gradient(110deg,#e8dcc0,#fff7e3 48%,#dfd0ad);box-shadow:inset 0 0 0 1px #fffae577,0 3px 7px #071b2050;border-radius:13px}
+button:disabled{opacity:.6}
+.primary{background:linear-gradient(110deg,#d6ad60,#f8dda0 48%,#d8ac62);color:#3c301e;border-color:#a78142;box-shadow:inset 0 0 0 1px #fff2be99,0 3px 8px #071b2050}
+.close{background:#244d41;color:#f2e1ad;border:1px solid #9b8c59;font-family:system-ui;min-width:44px;border-radius:12px;font-size:25px}
+.quiet{background:#1c4439ed;color:#f2e5bf;border-color:#a8925a}
+header{gap:12px}
+.resources{gap:8px;align-items:center}
+.resources>span,.resources>#previewBtn{background:linear-gradient(115deg,#193f35f2,#294e3eef);color:#fff3ce;border:1px solid #c2a96b;border-radius:13px;box-shadow:inset 0 0 0 2px #e8d59b14,0 3px 9px #0a292d40;padding:8px 13px;min-height:48px;display:flex;align-items:center;gap:7px;font-size:21px}
+.resources .heart{color:#efa9a1}.resources .coin{color:#e9c67a}.resources i{font-style:normal;color:#b6ccad}.resources small{color:#c6c6a8;font-size:12px}
+#previewBtn span.wave-chevron{padding-left:4px;color:#e8cc8c;font-size:15px}
+nav button{background:linear-gradient(#254e40,#173c33);color:#f1e5bc;border:1px solid #b7a16d;box-shadow:inset 0 0 0 2px #d4bc7c16,0 3px 7px #102c2d50;min-width:48px}
+#battleFoot{margin-left:auto}#status{background:#183e36e8;border-color:#c2a96766;color:#f2e8cd}
+#tray{background:linear-gradient(110deg,#173c34fa,#285142fa);border:1px solid #b6a06a;box-shadow:inset 0 0 0 3px #d4b97714,0 8px 24px #102b3155}
+#trayContent .shop{background:linear-gradient(#325a47,#1c4137);border-color:#9b9b65;box-shadow:inset 0 0 0 1px #a4b37526}
+#trayContent .shop:disabled::after{background:#193b32e8;color:#d9d4bb}
+.tower-title small,.tray-caption,.stats{color:#b9c8aa}.stats strong{color:#fff1c4}.tray-info{background:#284e41;color:#f2e4ba}
+dialog{color:var(--ink);background:radial-gradient(ellipse at 5% 0%,#38604877,transparent 45%),linear-gradient(130deg,#1c4138,#102f2e);border:3px double #c6ac70;box-shadow:inset 0 0 0 5px #e0ca8b0c,0 18px 70px #071f2bc0;border-radius:22px;max-height:calc(100dvh - max(28px,env(safe-area-inset-top)) - max(28px,env(safe-area-inset-bottom)));padding:22px}
+dialog::backdrop{background:#071e27a8;backdrop-filter:blur(5px)}
+.modal-head{border-bottom:1px solid #b9a46a55;padding-bottom:12px;gap:16px}.modal-head small{color:#c4b786;font-size:9px;letter-spacing:.24em}.modal-head h2{font-family:"Noto Serif TC","PMingLiU",serif;font-weight:700;color:#f6e8b5}
+.modal-head h2::before{content:"✧";color:#d8b869;margin-right:9px;font-size:.85em}
+#modalBody{color:#eee9d5}.muted,.campaign-lead,.campaign-note,.result-summary,.blessing-lead{color:#b8c8ac}
+.menu-grid>div,.help-grid article,.gallery-detail,.unlock-list>div,.ready-roster>span,.objectives-list li{background:#315644;border-color:#7a8b5b88;color:#f2ecd5}
+.help-grid strong,.gallery-detail strong,.stats strong{color:#f6e4b0}.gallery-detail .muted,.unlock-list small,.objectives-list small,.enemy-mechanic{color:#c0cfb5}
+.stat-pills span{background:#183d32;color:#eadab4}.objective-star{color:#b5ba9b}.objective-star.earned,.stage-card .stage-stars{color:#f1cb75}
+.stage-card,.theme-river,.theme-frost,.theme-sanctuary{background:linear-gradient(145deg,#365c48,#203f37);color:#f5eed5;border-color:#a59460}.stage-card .stage-number{color:#b6c5a6}
+.gallery-forms button{color:#ede7cb}.gallery-forms button.active{background:#365a45;border-color:#b7a065}
+.blessing-cards button{background:linear-gradient(#345c46,#1e4339);color:#f8edcb;border-color:#b9a262}.blessing-cards button>span{color:#f2ce7d}.reward-options [aria-pressed=true]{color:#493b20}
+.settings-list{display:grid;gap:14px;margin:12px 0 18px}.settings-list>div{display:flex;align-items:center;justify-content:space-between;gap:22px;padding:12px 14px;background:#305340;border:1px solid #a68d574d;border-radius:12px}.settings-list small{display:block;color:#becdb1;font-size:12px;font-weight:400;margin-top:3px}.settings-list button{flex-shrink:0;white-space:nowrap}
+.auto-setting{display:flex;align-items:center;gap:14px;padding:14px;background:#305340;border:1px solid #a68d5777;border-radius:13px;min-height:60px;cursor:pointer}.auto-setting input{width:24px;height:24px;flex-shrink:0}.auto-setting small{display:block;font-size:12px;color:#c2cfb7;font-weight:400}
+.pause-dialog[open]{display:flex;flex-direction:column;width:min(900px,calc(100vw - var(--left) - var(--right)));overflow:hidden}
+.pause-dialog .modal-head,.pause-dialog #modalFooter{flex-shrink:0}.pause-dialog #modalBody{overflow-y:auto;min-height:0;overscroll-behavior:contain;padding:2px 3px 6px}
+.pause-layout{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.35fr);gap:24px}.pause-caption{color:#c5cdb0;font-size:12px;letter-spacing:.08em;margin:0 0 12px!important}
+.pause-summary .menu-grid{gap:9px}.pause-summary .menu-grid>div{font-size:12px;padding:10px 12px;border:1px solid #9eaa792b}.pause-summary b{display:block;font-size:24px;font-weight:650;line-height:1.4;color:#f6e6b8}.pause-summary b small{font-size:13px;font-weight:400;color:#c3c6a8}
+.pause-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.pause-links button{min-height:62px;text-align:left;padding:9px 14px;min-width:0;white-space:nowrap}.pause-links strong{display:block;font-size:14px}.pause-links small{display:block;font-weight:400;color:#75684e;font-size:11px;margin-top:3px}
+.pause-secondary{display:flex;gap:12px;margin-top:18px;padding-top:14px;border-top:1px solid #ac98644d}.pause-secondary button{flex:1;white-space:nowrap;font-size:12px;background:#23483b;color:#e8dec0;border:1px solid #9e936155;box-shadow:none}
+.pause-dialog #modalFooter{margin-top:14px;padding-top:12px;border-top:1px solid #ac98644d}.pause-dialog #resume{min-height:48px;font-size:17px;letter-spacing:.1em;display:flex;justify-content:center;align-items:center;gap:25px}
+@media(max-height:500px){
+ header{gap:10px;top:max(9px,env(safe-area-inset-top))}.resources{gap:7px}.resources>span,.resources>#previewBtn{font-size:17px;min-height:44px;padding:6px 10px;gap:5px}.resources small{font-size:10px}.resources>#previewBtn{font-size:16px;min-width:82px}nav{gap:7px}nav button{min-width:44px}.wave-actions button{min-width:126px;padding:6px 12px;font-size:12px}
+ dialog{padding:15px 18px}.modal-head{padding-bottom:9px;margin-bottom:12px}.modal-head h2{font-size:19px}.pause-dialog .modal-head small{display:none}.pause-layout{gap:17px;grid-template-columns:minmax(0,.75fr) minmax(0,1.35fr)}.pause-caption{font-size:11px;margin-bottom:8px!important}.pause-summary .menu-grid>div{padding:7px 10px;font-size:11px}.pause-summary b{font-size:20px}.pause-links{gap:8px}.pause-links button{min-height:48px;padding:6px 11px}.pause-links strong{font-size:13px}.pause-links small{font-size:10px;margin-top:0}.pause-secondary{margin-top:12px;padding-top:10px;gap:10px}.pause-dialog #modalFooter{margin-top:8px;padding-top:8px}.pause-dialog #resume{min-height:44px;font-size:15px}
+}
+@media(max-width:760px) and (orientation:landscape){
+ .resources>.wave-stat{display:flex!important}header{gap:8px}.resources>span,.resources>#previewBtn{padding:5px 8px}.resources small{font-size:10px}.wave-actions button{min-width:120px}.pause-links small{display:none}.pause-links button{padding:8px 12px}.pause-layout{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)}.settings-list>div{gap:14px}.settings-list small{font-size:11px}
+}
+@media(max-height:500px) and (orientation:landscape){
+ dialog{max-height:calc(100dvh - max(12px,env(safe-area-inset-top)) - max(12px,env(safe-area-inset-bottom)))}
+ .pause-summary .menu-grid>div{padding:6px 10px}.pause-summary b{font-size:18px}.pause-caption{margin-bottom:7px!important}
+}
+
+/* Keep departure actions visible beneath the compact session summary. */
+.pause-summary .pause-secondary{margin-top:12px;padding-top:9px;gap:7px}
+.pause-summary .pause-secondary button{min-width:0;min-height:44px;padding:5px 4px;font-size:12px}
+@media(max-height:500px){.pause-summary .menu-grid>div{padding:5px 10px}.pause-summary b{line-height:1.25}.pause-summary .pause-secondary{margin-top:9px;padding-top:7px;gap:6px}.pause-summary .pause-secondary button{font-size:11px}}
+@media(max-height:500px){
+ .pause-caption{display:none}
+ .pause-links strong{line-height:1.35}.pause-links small{line-height:1.3}
+}

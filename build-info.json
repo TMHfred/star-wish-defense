@@ -1,5 +1,5 @@
 {
-  "build_id": "d03bb391eb810e55",
+  "build_id": "c6ba0282b993ee6a",
   "channel": "github-pages",
   "chapters": 4,
   "stages": 12,
@@ -54,15 +54,15 @@
     "icons/hope-star-180.png": "e1d7ecb6ece395f5407c6c345575626603cc3348f92c9fc884cf854bdff05a1f",
     "icons/hope-star-192.png": "e4b73e6ace5edc8d6486327547510d5bc4ee8c2444379ab4471b3d3746fb458f",
     "icons/hope-star-512.png": "21b94682fdf1cf3e44bf54a545b5f9ef764701fba285febc85059cc06f8adbc7",
-    "index.html": "cc2d660b312578ffc85ce921cccffb44ec45e8eb61a770b3e45079435741819d",
+    "index.html": "1c5e318e9f116d108b27c719d8026ff4e758c3d6ff1f147a1efd0a36dc2c1729",
     "manifest.webmanifest": "9e6635a26872f1fd44de9f64c3035fb1ae81cd110ff6360bb7e95ce3a67453df",
     "model.js": "6e51980382ba8d1737cd96367e5276a8f32c91c1ca1138c2011977c28c1be1b8",
-    "scene.js": "5e811f3f31f4712255b2a4f2f0a3e4cadaf5a16a77d048dc2b7b43a809de73cf",
+    "scene.js": "fd8692714d85bc08b7468179c5089c617013407f10f6e646005ed16e4cacfa48",
     "stages.js": "0f69c519cec795d0aaf93fa04d79cc99aae055c915f5098db2f393ecfce4a7d7",
-    "style.css": "011fbd76a020cd73d6876c2feca8a8eb4cd453d244cb52237f20fa28731ea7d2",
-    "ui.js": "88d56901ca010c69fad11a45e40720946f54810e7d55ced8ac3ca63da879bc7e",
+    "style.css": "1a3606b1f7ff0e0057c03d6343a04a1b4c8b86df95f6ad149778a9a2993576fe",
+    "ui.js": "8e98c9912dfafe73a6834087635609559ebed55193b4ab7d25838582857cef6d",
     "vendor/PHASER-LICENSE.txt": "d59c20a9deb5dc240614b428dce5246ae561d15efeeebea0e069d73f0a78fbff",
     "vendor/phaser.min.js": "66348b1b5141e49b7d5ebbe688cddcb502eab1cb00f21c538686a5b2c5abe4de",
-    "viewport.js": "d0a23d18ab97acc316c219a462298e957ac0941448b685e5783bfefa5fe1a7f2"
+    "viewport.js": "146de43bf7d73d0e76d9059bf038e7faf0fb46c85ad62573ec88a3e66d4c8663"
   }
 }

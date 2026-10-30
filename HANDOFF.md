@@ -107,6 +107,13 @@ Phaser 4.2.1 本地 vendor；四場景十二關、8～15 波、八種敵人；�
 - 新增 ice-assets.test.cjs：檢查五張完整檔案雜湊／大小與版本網址；browser-ice-assets.test.py 核對實際 HTTP 回應與 Phaser 解碼像素、五張圖鑑載入、基本→分支→最終兩路線及最終 146 世界單位寬度。
 - 上述素材模型／檔案／瀏覽器檢查已通過；圖片原檔未變更。準備與手機視口修正一起同步 GitHub Pages，發布設定維持 main / (root)，不改玩法。
 
+## 手機視口與核准冰塔更新已發布
+- 環境恢復後完成正式根目錄的手機回歸測試，通過舊 Phaser／父元素／innerHeight 故障注入、反覆轉向、背景返回、點擊區與觸控建塔。npm test、npm run check、正式根目錄所有檔案雜湊均通過。
+- 正式 main 已更新至 92bb068（Publish viewport synchronization and approved ice tower textures）；build-info.json 的 build_id 為 1119d76800eb5868。
+- GitHub Pages 工作 https://github.com/TMHfred/star-wish-defense/actions/runs/40726893535 已核對此次提交並回報 COMPLETED / SUCCESS。正式網址維持 https://tmhfred.github.io/star-wish-defense/ 。
+- 新版冰塔五張原檔皆直接來自 6fbcb18，根目錄／dist／manifest 的雜湊一致；戰場與圖鑑實際回應、解碼像素及兩條最終進化驗證已通過，沒有從舊圖集裁切。
+- 更新前版本已保存遠端 backup/pre-mobile-63b96a1，未 force push。實體 iPhone／Safari 的裁切症狀仍需使用者試玩確認；本環境無 tmhfred.github.io 存取權，未宣稱線上瀏覽器或實體手機測試已通過。
+
 ## 第一階段：建造操作、目標優先與六塔基本特效
 
 - 開發分支 `remake/phase-one-combat`，基於本次環境既有 `92bb068`；只修改 dist 開發入口與文件／測試，根目錄正式網站未同步，未推送、合併或部署。
@@ -160,3 +167,35 @@ Phaser 4.2.1 本地 vendor；四場景十二關、8～15 波、八種敵人；�
 - 正式封裝 build_id=d03bb391eb810e55，channel=github-pages，包含 .nojekyll、內容指紋 JS/CSS 與 SHA-256 清單，移除 viewport-debug 引用。封裝在本機 /star-wish-defense/ 子路徑通過 browser-home、browser-phase-three、browser-campaign；npm test／npm run check／git diff --check 亦通過。
 - 本次網站採 v2 全員從零旅程；無中途戰鬥存檔，未做實體 iPhone／Safari 驗證。發布包含目前三階段與使用者指定主頁，第四階段仍另列待辦。
 - 當前環境可讀 GitHub Actions HTML；tmhfred.github.io 與 api.github.com 請求遭代理 CONNECT 403。已將兩網域保存至環境設定草稿；草稿不代表執行環境已套用。部署成功需核對對應提交的 Pages 工作，正式站 build-info.json 的直接驗證另受此限制。
+
+## 本輪正式部署結果
+
+- 正式 main：708a2312e0909b229caddeb4249926188e14fff7，build_id=d03bb391eb810e55。GitHub Pages 工作 https://github.com/TMHfred/star-wish-defense/actions/runs/40900471999 對應此提交，已回報 Status Success，總耗時 33 秒，deploy 工作 13 秒；回傳正式網址 https://tmhfred.github.io/star-wish-defense/ 。
+- 遠端 backup/pre-journey-v2-92bb068 已建立，指向原 main 92bb068。備份與 remake 的第一次原子推送因遠端有額外交接紀錄而拒絕，但同批發布指令未中止，main 先更新；已立即補建獨立備份，並將遠端原有紀錄與本輪內容合併保留，沒有 force push。
+- 開發內容提交 06ba8c0；目前開發工作分支改名為 journey-v2-development，追蹤 origin/remake，避免本地 remake/ 子分支名稱與既有遠端 remake 名稱衝突。正式根目錄產物保留於 release/journey-v2／遠端 main。
+- GitHub Actions 成功是部署證據；目前政策未允許正式站 HTTP，尚未完成線上 build-info.json／瀏覽器端到端驗證。所需 api.github.com、tmhfred.github.io 已保存環境草稿，需在環境設定檢閱儲存、發布雲端環境後才可套用。
+
+## 手機畫質、森林介面與遺跡活化整合
+
+- 本輪使用者在討論三項後明確指示「執行」，範圍為整合開發及預覽；本輪沒有新增正式發布指示。仍在 journey-v2-development 工作分支，根目錄正式產物、main 與遠端皆未變更。
+- 已以 Chromium DPR 3／844×390 實測原版畫布仍為 844×390，game.config.resolution 未存在。Phaser 4.2.1 不採用舊的 GameConfig.resolution，因此原本設定沒有增加實際像素。
+- viewport.js 改用實際 drawing buffer、Scale.NONE 的 display zoom 與 CSS 寬高同步；高密度上限 2，額外渲染約 300 萬像素預算，原生 CSS 面積更大時不降到低於 1。CSS 與 DOM 世界座標維持不變，相機使用 X／Y 實際像素比，明確同步 displayScale，避免大螢幕預算產生的小數取整影響顯示或輸入。DPR 3／844×390 現在為 1688×780 畫布。debug 記錄補入 buffer／density；正式封裝仍排除 debug。
+- 保留原素材 bytes、世界 1280×400、塔尺寸與 fitting；地圖原始 forest.webp 僅 887×443，提高畫布像素不能補回原圖不存在的細節。精簡特效只減少效果，不降低地圖／塔解析度；沒有宣稱實機耗電、發熱或幀率改善。
+- 全介面延伸指定主頁的森林綠、象牙白、暖金。HUD 波次數字改為下一波預告入口，自動接波移入預告，備戰顯示開始、戰鬥顯示暫停／繼續；速度與選單保留。暫停選單為本場摘要、兩欄六入口、次要離場操作、固定繼續守護；音效／特效收進設定。手機短高度面板保留安全區與捲動；準備頁三項挑戰及底部開始／返回仍可見。
+- 空平台以程序圖形加入固定種子細節：風化石面、裂紋、缺角、青苔、草、接地陰影。點選疊加暖金星紋；半透明選塔預覽、取消不扣款與射程共用模型維持。確認後空底座隱藏，原塔圖的完整底座呈現新生，另加 600ms 地面活化／修復星光，精簡或 reduced-motion 180ms。建造立即生效，不等待動畫；活化使用實際場景時間，暫停時也會結束。拆除恢復風化平台。移除原建造縮小彈出以避免暫停時卡在縮小狀態。
+- 新增 tests/browser-mobile-polish.test.py，含 DPR 1／2／3 真實 buffer、CSS／相機／輸入比例、四種尺寸 HUD 間距與選單可達性、原生 Phaser 觸控、低特效不降解析度、取消／暫停建造／活化結束／拆除／接波設定。更新原 browser-viewport、browser-phase-one、browser.test 的畫布和新設定入口預期。
+- 已通過 npm test（五組模型／旅程／素材測試）、npm run check、git diff --check；browser-home、browser-viewport、browser-phase-one、browser-phase-three 通過。涵蓋主頁與續玩、準備頁三挑戰、直橫向故障恢復、建造索敵、試煉／祝福與分裂呈現。這些為 Chromium 模擬，並非實體 iPhone／Safari 測試。
+- 最終整合驗證：browser-mobile-polish 通過 DPR 1／2／3、844×390／667×375／932×430／1440×900，含實際 drawing buffer、CSS／相機對齊、原生 Phaser 觸控、暫停建造與活化結束、拆除與接波設定。最後選單排版另以完整按鈕邊界 smoke 驗證 667／844／1440，六個手札入口與三個離場操作均初次可見、整顆可點，固定繼續／關閉可達；包含大畫面非整數倍率的 displayScale 校驗，無頁面錯誤。
+- 交付預覽包：/workspace/star-wish-defense-preview/star-wish-preview-e4eabd83e077cbd6.zip，build_id=e4eabd83e077cbd6，61 個封裝檔案，已逐檔 SHA-256 校驗。預覽圖 battle-844.png、pause-667.png／pause-844.png／pause-1440.png、relic-selected.png／relic-awakened.png 及 render-report.json／final-smoke.json 同放該目錄。啟動方式見 README.txt。
+- 本輪未 Git push、未更新 main 或正式 GitHub Pages；旅程存檔鍵及遊戲數值未變更。完整手機幀率、耗電、發熱與實體 Safari 驗證仍未完成。
+
+## 手機優化正式發布授權
+
+- 使用者明確要求「發布更新」，本輪將已交付的手機畫質、森林介面、風化平台與活化回饋發布至原網址 https://tmhfred.github.io/star-wish-defense/ 。未將後續討論的自動存檔、教學或音效等待辦混入本次發布。
+- 正式封裝與核准預覽的 build_id 相同：e4eabd83e077cbd6。channel 為 github-pages，61 個檔案、.nojekyll、內容指紋 JS/CSS 與逐檔 SHA-256 驗證通過；正式包在 /workspace/star-wish-mobile-production/star-wish-github-pages-e4eabd83e077cbd6.zip。
+- 最新遠端 main 基準為 708a2312e0909b229caddeb4249926188e14fff7。本機完整封存 /workspace/star-wish-mobile-production/main-before-708a231.tar，SHA-256=07cac442cccec352c328fd072c2b1bcb435a5154666f5d620c295a350d37df82。發布必須先建立並核對遠端 backup/pre-mobile-polish-708a231，再更新 main，禁止 force push。
+- 發布前再次通過 npm test、npm run check、git diff --check；正式封裝內容與預覽一致，不改旅程存檔鍵、素材或遊戲數值。實機幀率／耗電／Safari 仍未驗證；目前執行環境網路政策仍未允許正式 Pages 網域，部署結果須由對應提交的 Actions 工作確認，不能宣稱已完成直接線上端到端驗證。
+- 已先完成遠端備份並以 ls-remote 核對：backup/pre-mobile-polish-708a231 指向 708a2312e0909b229caddeb4249926188e14fff7。主分支更新必須在正式封裝互動回歸通過後進行。
+- 正式封裝回歸在 DPR 3／1440×900 發現相機矩陣可能落後尺寸更新。已暫停發布並中止未提交的發布分支整合，main 未變更。可控重現：停止渲染後由 844×390 切換至 1440×900，相機屬性已更新，但 getWorldPoint 的預期 (300,200) 仍回傳約 (228.229,152.111)；preRender 同步後恢復約 (300,200)。
+- 修正：Scene.layout 在更新相機縮放後立即 preRender，讓顯示／點擊矩陣同步，不依賴下一次渲染影格。新增停止渲染再往返手機／大畫面的回歸條件。正式發布封裝因此更新為 c6ba0282b993ee6a（取代前述 e4eabd83e077cbd6，視覺設計不變）。此修正不改模型、素材或存檔。
+- 修正版正式封裝驗證完成：DPR 3 通過 844×390／667×375／932×430／1440×900 的完整手機介面、原生 Phaser 輸入、設定、取消／暫停建造／活化／拆除；並通過停止渲染時往返大小畫面的矩陣同步條件。DPR 1／2 另以修正版封裝補測相同暫停渲染縮放、CSS／buffer／displayScale 及座標，均通過。證據在 /workspace/star-wish-mobile-production/browser-results-fixed 與 density-smoke.json。
