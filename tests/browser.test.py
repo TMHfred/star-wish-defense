@@ -56,8 +56,7 @@ with sync_playwright() as p:
                 page.set_viewport_size({'width': width, 'height': height})
                 page.wait_for_timeout(150)
                 assert page.locator('#tray').bounding_box()['height'] < 100
-                for selector in ['#previewBtn', '#waveBtn', '.wave-actions label',
-                                 '#pauseBtn', '#speedBtn', '#menuBtn']:
+                for selector in ['#previewBtn', '#waveBtn', '#speedBtn', '#menuBtn']:
                     element = page.locator(selector)
                     box = element.bounding_box()
                     assert box and box['height'] >= 44 and box['x'] >= 0
@@ -68,10 +67,10 @@ with sync_playwright() as p:
                     }'''), selector
             page.locator('#previewBtn').click()
             assert page.locator('#modal').is_visible()
-            page.locator('#closeModal').click()
             page.locator('#autoBtn').uncheck()
             assert not page.evaluate('battle.model.auto')
             page.locator('#autoBtn').check()
+            page.locator('#closeModal').click()
             page.locator('#sellTower').click()
             page.locator('#closeTray').click()
     page.locator('#menuBtn').click()

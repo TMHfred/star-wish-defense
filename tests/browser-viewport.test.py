@@ -19,11 +19,13 @@ with sync_playwright() as p:
         page.wait_for_timeout(450)
         state=page.evaluate('''()=>{
             const c=phaserGame.canvas.getBoundingClientRect();
-            return {width:battle.scale.width,height:battle.scale.height,x:c.x,y:c.y,
+            return {width:ForestViewport.measure().width,height:ForestViewport.measure().height,
+                bufferWidth:phaserGame.canvas.width,bufferHeight:phaserGame.canvas.height,density:phaserGame.renderDensity,x:c.x,y:c.y,
                 canvasWidth:c.width,canvasHeight:c.height,
                 worldY:battle.world.y,worldBottom:battle.world.y+400*battle.worldScale};
         }''')
         assert state['width']==width and state['height']==height,state
+        assert state['bufferWidth']==round(width*state['density']) and state['bufferHeight']==round(height*state['density']),state
         assert abs(state['x'])<1 and abs(state['y'])<1,state
         assert abs(state['canvasWidth']-width)<1 and abs(state['canvasHeight']-height)<1,state
         assert state['worldY']>=0 and state['worldBottom']<=height,state

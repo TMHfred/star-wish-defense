@@ -77,8 +77,10 @@ with sync_playwright() as p:
     assert page.evaluate('Forest.finalForm(battle.model.towers[0]) && battle.model.towers[0].targetMode==="nearest"')
     page.locator('#closeTray').click()
     page.locator('#menuBtn').click()
-    page.locator('#menuEffects').click()
+    page.locator('#menuSettings').click()
+    page.locator('#settingsEffects').click()
     assert page.evaluate('battle.effectsLow')
+    page.locator('#backSettings').click()
     page.locator('#resume').click()
     # Burst, ring, lightning, impact and floating text share a strict object budget.
     page.evaluate('''()=>{

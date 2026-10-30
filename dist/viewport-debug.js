@@ -29,6 +29,7 @@
       standalone: matchMedia('(display-mode: standalone)').matches || navigator.standalone === true,
       portrait: matchMedia('(orientation: portrait)').matches,
       canvas: rect(document.querySelector('#game canvas')),
+      buffer: scene ? { width: scene.game.canvas.width, height: scene.game.canvas.height, density: scene.game.renderDensity } : null,
       scale: scene ? { width: scene.scale.width, height: scene.scale.height } : null,
       world: scene ? { x: scene.world.x, y: scene.world.y, scale: scene.worldScale } : null,
       hud: rect(document.getElementById('hud')),
