@@ -199,3 +199,28 @@ Phaser 4.2.1 本地 vendor；四場景十二關、8～15 波、八種敵人；�
 - 正式封裝回歸在 DPR 3／1440×900 發現相機矩陣可能落後尺寸更新。已暫停發布並中止未提交的發布分支整合，main 未變更。可控重現：停止渲染後由 844×390 切換至 1440×900，相機屬性已更新，但 getWorldPoint 的預期 (300,200) 仍回傳約 (228.229,152.111)；preRender 同步後恢復約 (300,200)。
 - 修正：Scene.layout 在更新相機縮放後立即 preRender，讓顯示／點擊矩陣同步，不依賴下一次渲染影格。新增停止渲染再往返手機／大畫面的回歸條件。正式發布封裝因此更新為 c6ba0282b993ee6a（取代前述 e4eabd83e077cbd6，視覺設計不變）。此修正不改模型、素材或存檔。
 - 修正版正式封裝驗證完成：DPR 3 通過 844×390／667×375／932×430／1440×900 的完整手機介面、原生 Phaser 輸入、設定、取消／暫停建造／活化／拆除；並通過停止渲染時往返大小畫面的矩陣同步條件。DPR 1／2 另以修正版封裝補測相同暫停渲染縮放、CSS／buffer／displayScale 及座標，均通過。證據在 /workspace/star-wish-mobile-production/browser-results-fixed 與 density-smoke.json。
+
+## 手機優化正式部署完成
+
+- 正式網址：https://tmhfred.github.io/star-wish-defense/ 。main 已正常 fast-forward 更新至 c57ef52c587feb7964de4c4986cbae41fb4f10ad；正式 build_id=c6ba0282b993ee6a，包含發布前發現並修正的相機矩陣同步問題，原預覽 e4eabd83e077cbd6 的視覺設計保持一致。
+- GitHub Pages 工作 https://github.com/TMHfred/star-wish-defense/actions/runs/40980405473 對應 c57ef52，狀態 Success，總耗時 29 秒，deploy 工作成功並回傳正式網址。這是部署成功證據，不只是 Git push。
+- 已先建立並核對遠端 backup/pre-mobile-polish-708a231 指向原正式 708a231。全程無 force push，未重設旅程存檔，核准素材與模型數值維持原樣。
+- 修正版正式子路徑通過 DPR 3 四尺寸完整互動與渲染暫停縮放條件；DPR 1／2 另補測修正版暫停渲染時的 CSS／buffer／displayScale／相機點座標。相關報告、封裝與部署證據在 /workspace/star-wish-mobile-production，部署摘要為 deployment-result.json。
+- 本環境直接讀取正式站 build-info.json 仍遭 CONNECT 403，尚未完成正式網域 HTTP／瀏覽器端到端或實體 iPhone／Safari 驗證。不得將 Pages Success 宣稱為這些測試已通過。
+- 發布末段原生 Git 認證曾回覆 401「Invalid username or token」，但環境原有 GH_TOKEN 與 gh 可用。透過標準 GitHub CLI helper 恢復讀寫：git -c credential.helper='!gh auth git-credential' fetch／push／ls-remote。這是使用既有綁定，不需新增 Token、印出憑證或變更全域設定。後續遇同樣錯誤先檢查既有授權流程，勿直接要求使用者重連或提供 Token。
+- 已返回 journey-v2-development；dist、tests 與 package.json 核對與 origin/main 一致。後續功能仍在開發分支進行，正式發布照常備份及核對部署。
+
+## 星願補給所：趣味模擬商店
+
+- 使用者提供完整規格後，回覆「修改完後直接發布到正式版」，本輪最新授權是完成與測試後直接更新原正式站；公告仍另存草稿供審核，不加入遊戲公告。開發在 feature/star-wish-supply，沿用既有架構與核准美術，不使用外部圖、付款或訊息服務。
+- 主頁新增第五星願補給所次要入口，開始仍是主要視覺；戰場不加入口。三款禮包、售價文案、操作文案與三枚徽章依使用者規格；最高級感謝文字逐字保留。每步固定顯示「趣味模擬，無實際付款，不會收取費用」，確認頁說明不用真的按讚、留言、分享或購買飲料，無表單、外部連結或傳送操作。
+- dist/supply-shop.js 管理列表／確認／開箱／結果及 SVG 袋子、寶箱、封印徽章與可愛飲料。典藏箱開啟後飲料浮現，星星緩移，動畫 1.6 秒，可跳過／重播，系統減少動態及既有精簡特效直接呈現結果。關閉、返回及切換其他對話框會清除計時器，避免稍後意外彈回結果。
+- dist/ui.js 沿用原有 open／close、screenStack 與 pauseState，商店轉場不會關閉對話框再重開，也不重設 manualPause。Esc 在確認／結果返回列表、在開箱跳過、在列表關閉；X 可直接關閉。保留戰鬥從主頁續玩的模型狀態，商店本身不解除手動暫停。
+- dist/model.js 在既有 version 2／starwish-journey-v2 新增 supplyBadges 字串陣列，允許 starlight／wish／drink，舊檔預設 []、嚴格白名單去重。collectSupplyBadge 純函式不改傳入物件與原進度；確認時即保存，動畫中途關閉或刷新也保留。重播不寫入、不累加；儲存失敗會顯示當頁暫存提示。不發金幣／星數、不動塔資格、能力、城堡／稱號或試煉。
+- 手機橫向三欄，短高度保留售價與至少 44px 按鈕，收藏向下捲動，標題／關閉／模擬聲明固定。額外補齊 568×320 的主頁兩顆主要按鈕並排與次要入口可達性；不改地圖 fitting 或塔圖。正常尺寸主頁維持原構圖。
+- npm test 六組測試、npm run check、git diff --check 通過。tests/supply.test.cjs 驗證舊檔、資料清理、去重、非突變、結算保留與零戰鬥收益。tests/browser-supply.test.py 在正式 /star-wish-defense/ 子路徑通過 DPR 2、844×390／667×375／932×430／1440×900、三款完整流程、連點、Esc／取消、動畫取消／重播／減少動態、刷新與舊進度保留、儲存失敗、無外部請求／彈窗，以及原生觸控的原有暫停／續玩。
+- 瀏覽器請求白名單允許同源 HTTP、data 與同源 blob：Phaser 預載會使用本地 blob，不能把它誤判為外連；外部來源仍會使測試失敗。高密度軟體渲染時定位器穩定等待會誤判，測試先驗證元素命中區與邊界，再使用真實原生觸控座標；另已核對字級／按鈕位置穩定。
+- 正式封裝 build_id=ec38df45940a876e，62 檔案，.nojekyll、JS/CSS 指紋與 SHA-256 已核對；在 /workspace/star-wish-supply-production。完整商店報告 browser-results/result.json；568×320 另以原生觸控 smoke 通過。以上均為 Chromium 模擬，並非實體 iPhone／Safari 測試。
+- 公告草稿位於 /workspace/star-wish-supply-preview/announcement-draft.md，僅本機交付審閱，不在 repo 或正式封裝；news() 公告內容維持原樣。參考圖 home-844.png、shop-667.png／shop-844.png／shop-1440.png、confirm-drink-844.png、thanks-drink-844.png 同放 preview 目錄。
+- 發布前已核對遠端 main=c57ef52c587feb7964de4c4986cbae41fb4f10ad，先建立遠端 backup/pre-supply-c57ef52 指向該版本。完整本機備份 /workspace/star-wish-supply-production/main-before-c57ef52.tar，SHA-256=98d513d11e55ceb0693cff1b2202dc4015115ff003d45349b84775a884af076e。無 force push，尚須核對本次 Pages 部署工作才能宣稱上線。
+- 發布前原首頁 browser-home 回歸亦通過：原有開始、說明、圖鑑、公告、設定、分頁內戰鬥續玩、刷新後選關，以及準備頁三項挑戰／開始操作正常。正式封裝完整商店測試與原功能回歸均完成，現在可進行發布整合。

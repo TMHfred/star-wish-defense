@@ -28,11 +28,12 @@ function pathLength(route){return route.slice(1).reduce((sum,p,i)=>sum+Math.hypo
 const total=pathLength(ROUTE);
 function position(d,route=ROUTE){d=Math.max(0,d);for(let i=1;i<route.length;i++){const a=route[i-1],b=route[i],length=Math.hypot(b[0]-a[0],b[1]-a[1]);if(d<=length){const r=d/length;return{x:a[0]+(b[0]-a[0])*r,y:a[1]+(b[1]-a[1])*r};}d-=length;}const p=route.at(-1);return{x:p[0],y:p[1]};}
 const PROGRESS_KEY='starwish-journey-v2';
+const SUPPLY_BADGES=Object.freeze(['starlight','wish','drink']);
 const TOWER_GATES=[null,0,1,3,5,'trial'];
 const FINAL_STARS=[6,9,12,18,24,30];
 const CASTLE_STYLES=[{id:'forest',name:'森林石堡',stars:0,tint:0xffffff},{id:'moon',name:'月溪銀堡',stars:12,tint:0xbddfff},{id:'star',name:'星願金堡',stars:24,tint:0xffdf9e}];
 const TITLES=[{id:'rookie',name:'初星守望',stars:0},{id:'forest',name:'森林守護者',stars:6},{id:'moon',name:'月溪領航者',stars:18},{id:'star',name:'星願守護者',stars:30},{id:'complete',name:'滿星守望者',stars:36}];
-function emptyProgress(){return{version:2,goals:STAGES.map(()=>[false,false,false]),stars:Array(STAGES.length).fill(0),trialWon:false,castleStyle:'forest',titleId:'rookie'};}
+function emptyProgress(){return{version:2,goals:STAGES.map(()=>[false,false,false]),stars:Array(STAGES.length).fill(0),trialWon:false,castleStyle:'forest',titleId:'rookie',supplyBadges:[]};}
 function readProgress(value){
  const clean=emptyProgress();if(value?.version!==2||!Array.isArray(value.goals))return clean;
  clean.goals=clean.goals.map((_,i)=>{const row=value.goals[i];return Array.isArray(row)&&row[0]===true?[true,row[1]===true,row[2]===true]:[false,false,false];});
@@ -40,8 +41,10 @@ function readProgress(value){
  clean.trialWon=value.trialWon===true&&clean.goals[8][0];
  const count=clean.stars.reduce((a,b)=>a+b,0);
  clean.castleStyle=CASTLE_STYLES.find(r=>r.id===value.castleStyle&&r.stars<=count)?.id||'forest';
+ clean.supplyBadges=SUPPLY_BADGES.filter(id=>Array.isArray(value.supplyBadges)&&value.supplyBadges.includes(id));
  clean.titleId=TITLES.find(r=>r.id===value.titleId&&r.stars<=count)?.id||'rookie';return clean;
 }
+function collectSupplyBadge(progress,id){const clean=readProgress(progress);if(SUPPLY_BADGES.includes(id))clean.supplyBadges=SUPPLY_BADGES.filter(key=>key===id||clean.supplyBadges.includes(key));return clean;}
 function totalStars(progress){return readProgress(progress).stars.reduce((a,b)=>a+b,0);}
 function stageUnlocked(progress,id){return Number.isInteger(id)&&!!STAGES[id]&&(id===0||readProgress(progress).goals[id-1][0]);}
 function towerUnlocked(progress,type){if(!TOWERS[type])return false;if(progress===null)return true;const p=readProgress(progress),gate=TOWER_GATES[type];return gate===null||gate==='trial'&&p.trialWon||Number.isInteger(gate)&&p.goals[gate][0];}
@@ -214,5 +217,5 @@ else if(!this.queue.length&&!this.enemies.length&&!this.shots.length){
 }}
 
 }
-const api={Game,TRIAL,BLESSINGS,trialUnlocked,trialStatus,enemyMechanic,PROGRESS_KEY,TOWER_GATES,FINAL_STARS,CASTLE_STYLES,TITLES,totalStars,stageUnlocked,towerUnlocked,towerRequirement,finalUnlocked,earnedGoals,TARGET_MODES,challengeStatus,objectiveStatus,STAGES,CHAPTERS,emptyProgress,readProgress,earnedStars,settle,pathLength,TOWERS,ENEMIES,WAVES,ROUTE,PADS,stats,variant,finalForm,formTower,ability,upgradeCost,position,total};root.Forest=api;if(typeof module!=='undefined')module.exports=api;
+const api={Game,TRIAL,BLESSINGS,trialUnlocked,trialStatus,enemyMechanic,PROGRESS_KEY,SUPPLY_BADGES,collectSupplyBadge,TOWER_GATES,FINAL_STARS,CASTLE_STYLES,TITLES,totalStars,stageUnlocked,towerUnlocked,towerRequirement,finalUnlocked,earnedGoals,TARGET_MODES,challengeStatus,objectiveStatus,STAGES,CHAPTERS,emptyProgress,readProgress,earnedStars,settle,pathLength,TOWERS,ENEMIES,WAVES,ROUTE,PADS,stats,variant,finalForm,formTower,ability,upgradeCost,position,total};root.Forest=api;if(typeof module!=='undefined')module.exports=api;
 })(globalThis);
